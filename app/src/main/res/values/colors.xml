@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#F36A24</color>
+    <color name="colorPrimaryDark">#DA5F20</color>
+    <color name="colorAccent">#E49600</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorGrey">#808080</color>
+    <color name="colorRed">#DD0000</color>
+    <color name="colorGreen">#008000</color>
+
+
+    <color name="title_app">#5D4037</color>
+    <color name="my_statusbar_color">#FFAB91</color>
+    <color name="searchtextcolor">#2e2e2e</color>
+    <color name="toolbarcolor">#F36A24</color>
+    <color name="black">#000000</color>
+    <color name="orange">#E49600</color>
+    <color name="background">#EDEDED</color>
+
+    <color name="gridbackcolor">#BEBEBE</color>
+
+
+    <color name="white">#ffffffff</color>
+    <color name="colorShimmer">#DDDDDD</color>
+    <color name="floatingbutton">#0077ff</color>
+    <color name="darkGrey">#595959</color>
+    <color name="transparent">#00ffffff</color>
+
+
+
+
+
+    <color name="schemetext">#00897B</color>
+    <color name="dicountdetail_text">#F36A24</color>
+
+
+
+</resources>

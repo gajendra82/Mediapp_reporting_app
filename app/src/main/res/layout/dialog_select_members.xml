@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:text="Add Chemist"
+        android:padding="5dp"
+        android:textColor="@color/colorWhite"
+        android:textSize="20dp" />
+
+    <EditText
+        android:id="@+id/searchChemistEdt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:hint="Search Chemist"
+        android:backgroundTint="@color/colorPrimary"
+        android:paddingLeft="5dp"
+        android:textColor="@color/colorBlack"
+        android:textColorHint="@color/colorGrey" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chemistRcv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="5dp"
+        android:layout_weight="0.8" />
+
+    <Button
+        android:id="@+id/addBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:text="Add Members"
+        android:layout_margin="5dp"
+        android:textAllCaps="true"
+        android:textColor="@color/colorWhite"
+        android:textSize="16dp" />
+
+</LinearLayout>

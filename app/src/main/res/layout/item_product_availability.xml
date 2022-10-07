@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cardview="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardview_pdt"
+    android:layout_width="match_parent"
+    android:layout_height="400dp"
+    android:layout_gravity="center"
+    android:layout_marginTop="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginLeft="5dp"
+    android:background="@color/background"
+    android:layout_marginBottom="5dp"
+    android:padding="5dp"
+    cardview:cardCornerRadius="5dp"
+    cardview:cardElevation="5dp">
+
+    <LinearLayout
+        android:id="@+id/ll_cardview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@drawable/shape"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:weightSum="10.5">
+
+        <ImageView
+            android:id="@+id/iv_pdtimg"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:scaleType="centerInside"
+            android:src="@drawable/loginbkg" />
+
+        <TextView
+            android:id="@+id/tv_pdtname"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="product name"
+            android:textColor="#000"
+            android:textSize="14dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_pdtdesc"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center|left"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="2"
+            android:ellipsize="end"
+            android:gravity="center|left"
+            android:maxLines="3"
+            android:text="product description"
+            android:textSize="14dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_pack"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="center|left"
+            android:layout_margin="5dp"
+            android:layout_weight="1.5"
+            android:gravity="center|left"
+            android:text="pack"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="14dp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+                <TextView
+                android:id="@+id/tv_ptr"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center|left"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:gravity="center|left"
+                android:text="pts"
+                android:textColor="#000"
+                android:textSize="14dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_mrp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center|right"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:gravity="center|right"
+                android:text="mrp"
+                android:textColor="#000"
+                android:textSize="14dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="0.7"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="2">
+        <TextView
+            android:id="@+id/availabilityTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:gravity="center"
+            android:textColor="@color/colorPrimary"/>
+    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_weight="1.3"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <LinearLayout
+                android:id="@+id/availableLL"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <TextView
+                    android:id="@+id/availableIcon"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:text="@string/circle_check_icon"
+                    android:gravity="center"
+                    android:textSize="20dp"
+                    android:textColor="@color/colorGreen"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.5"
+                    android:text="Available"
+                    android:gravity="center"
+                    android:textSize="12dp"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/unavailableLL"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <TextView
+                    android:id="@+id/unavailableIcon"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="match_parent"
+                    android:text="@string/circle_times_icon"
+                    android:gravity="center"
+                    android:textSize="20dp"
+                    android:textColor="@color/colorRed"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1.5"
+                    android:layout_height="match_parent"
+                    android:text="Unavailable"
+                    android:gravity="center"
+                    android:textSize="12dp"/>
+
+            </LinearLayout>
+<!--
+            <TextView
+                android:id="@+id/tv_addtocart"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1.5"
+                android:gravity="center"
+                android:text="Add To cart"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14dp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/iv_addtocart"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="0.2"
+                android:gravity="center" />-->
+        </LinearLayout>
+
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

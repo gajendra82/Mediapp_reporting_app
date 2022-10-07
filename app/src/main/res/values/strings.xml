@@ -1,0 +1,70 @@
+<resources>
+    <string name="app_name">Miljon Reporting</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="Username">Username</string>
+    <string name="Password">Password</string>
+    <string name="token_regid">token_regid</string>
+    <string name="function_name">function_name</string>
+    <string name="employee_id">employee_id</string>
+    <string name="employee_name">employee_name</string>
+    <string name="reporting_manager">reporting_manager</string>
+    <string name="leave_flag">leave_flag</string>
+    <string name="designation">designation</string>
+    <string name="subordinate_flag">subordinate_flag</string>
+    <string name="isLogin">isLogin</string>
+    <string name="err_msg_coverepincode">Enter Covered Pin Area</string>
+
+    <string name="schemes_icon">&#xf02b;</string>
+    <string name="refresh_icon">&#xf021;</string>
+    <string name="check_icon">&#xf00c;</string>
+    <string name="filter_icon">&#xf0b0;</string>
+    <string name="back_icon">&#xf104;</string>
+    <string name="circle_icon">&#xf111;</string>
+    <string name="edit_icon">&#xf303;</string>
+    <string name="add_user_icon">&#xf234;</string>
+    <string name="search_icon">&#xf002;</string>
+    <string name="close_icon">&#xf00d;</string>
+    <string name="calender_icon">&#xf073;</string>
+    <string name="down_arrow_icon">&#xf0d7;</string>
+    <string name="delete_icon">&#xf2ed;</string>
+    <string name="circle_check_icon">&#xf058;</string>
+    <string name="circle_times_icon">&#xf057;</string>
+
+
+    <!-- Error Messages -->
+
+    <string name="hint_name">Enter Name</string>
+    <string name="hint_ownerphone">Owner Phone Number</string>
+    <string name="hint_ownerown">Own Number</string>
+    <string name="hint_password">Create Password</string>
+    <string name="err_msg_name">Enter your full name</string>
+    <string name="err_msg_shopname">Enter your Shop name</string>
+    <string name="err_msg_city">Enter your City name</string>
+    <string name="err_msg_Street">Enter Street name</string>
+    <string name="err_msg_State">Enter your State name</string>
+    <string name="err_msg_ownername">Enter Owner name</string>
+    <string name="err_msg_gstnum">Enter GST number</string>
+    <string name="err_msg_Landmark">Enter Locality/Landmark/Street</string>
+    <string name="err_msg_area">Enter Nearest Landmark </string>
+    <string name="err_msg_druglicnum">Enter Drug Licence Number</string>
+    <string name="err_msg_confirmpassword">Confirm password doesnot match with Created password</string>
+    <string name="err_msg_confirmpassworddone">Password Matched</string>
+    <string name="err_msg_phone">Owner phone number should not be less than 10 digits</string>
+    <string name="err_msg_ownphone">Own number should not be less than 10 digits</string>
+    <string name="err_msg_Password">Enter the Password</string>
+    <string name="err_msg_mob">Mobile number should not be less than 10 digits</string>
+    <string name="err_msg_Altmob">Alternate Mobile number should not be less than 10 digits</string>
+    <string name="err_msg_email">Enter valid email address</string>
+    <string name="err_msg_validmobileno">Enter valid Mobile No</string>
+    <string name="err_msg_pin">Pin number should not be less than 6 digits</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

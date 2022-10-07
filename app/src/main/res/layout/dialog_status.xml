@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="Select Status"
+        android:textColor="@color/colorWhite"
+        android:textSize="20dp" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+
+        <RadioButton
+            android:id="@+id/approved"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableTint="@color/colorPrimary"
+            android:padding="5dp"
+            android:text="APPROVED"
+            android:textSize="16dp" />
+
+        <RadioButton
+            android:id="@+id/pending"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableTint="@color/colorPrimary"
+            android:padding="5dp"
+            android:text="PENDING"
+            android:textSize="16dp" />
+
+        <RadioButton
+            android:id="@+id/postpone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableTint="@color/colorPrimary"
+            android:padding="5dp"
+            android:text="POSTPONE"
+            android:textSize="16dp" />
+
+        <RadioButton
+            android:id="@+id/delivered"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableTint="@color/colorPrimary"
+            android:padding="5dp"
+            android:text="DELIVERED"
+            android:textSize="16dp" />
+
+        <RadioButton
+            android:id="@+id/declined"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableTint="@color/colorPrimary"
+            android:padding="5dp"
+            android:text="CANCEL"
+            android:textSize="16dp" />
+    </RadioGroup>
+
+
+</LinearLayout>

@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="3dp"
+    android:outlineAmbientShadowColor="#000"
+    android:outlineSpotShadowColor="#757575"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="5dp"
+    app:cardPreventCornerOverlap="false"
+    app:cardUseCompatPadding="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp">
+
+
+        <ImageView
+            android:id="@+id/deleteBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/delete"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+
+        <TextView
+            android:id="@+id/item_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="Product Name"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:layout_marginLeft="5dp"
+            app:layout_constraintRight_toLeftOf="@id/deleteBtn"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+        <LinearLayout
+            android:id="@+id/cartLT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/addsubbackground"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            android:weightSum="3"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/item_name">
+
+            <ImageView
+                android:id="@+id/iv_minus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="0.4"
+                android:gravity="center|right"
+                android:padding="8dp"
+                android:src="@drawable/newminus"
+                android:tint="@color/colorPrimary" />
+
+            <EditText
+                android:id="@+id/et_qty"
+                android:layout_width="54dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1.2"
+                android:background="@color/transparent"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:maxLength="6"
+                android:minWidth="40dp"
+                android:text="1"
+                android:textColor="#000"
+                android:textSize="14dp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/iv_plus"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center|left"
+                android:layout_weight="0.4"
+                android:padding="8dp"
+                android:src="@drawable/newplus"
+                android:tint="@color/colorPrimary" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/freeLL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/item_name"
+            app:layout_constraintLeft_toRightOf="@id/cartLT"
+            android:layout_marginLeft="20dp">
+            <TextView
+                android:id="@+id/freeLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/item_number"
+                android:layout_marginTop="16dp"
+                android:text="Free : "
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:textColor="@color/colorGrey"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/freeTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/item_number"
+                android:layout_marginTop="16dp"
+                android:text="8"
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:textColor="@color/colorGrey"
+                android:textStyle="bold"/>
+
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/tv_mrp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_number"
+            android:layout_marginTop="16dp"
+            android:text="MRP"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textColor="@color/colorGrey"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cartLT" />
+
+        <TextView
+            android:id="@+id/mrpValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_number"
+            android:layout_marginTop="16dp"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textColor="@color/colorGrey"
+            android:textStyle="bold"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cartLT" />
+
+        <TextView
+            android:id="@+id/tv_ptr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_number"
+            android:layout_marginTop="8dp"
+            android:text="PTR"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textColor="@color/colorGrey"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_mrp" />
+
+        <TextView
+            android:id="@+id/ptrValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_number"
+            android:layout_marginTop="8dp"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textColor="@color/colorGrey"
+            android:textStyle="bold"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mrpValue" />
+        <LinearLayout
+            android:id="@+id/discountLL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_ptr">
+
+            <TextView
+                android:id="@+id/tv_discount"
+                android:layout_width="0dp"
+                android:layout_weight="0.2"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/item_number"
+                android:layout_marginTop="8dp"
+                android:text="Discount : "
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:textColor="@color/colorGreen"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/discountValue"
+                android:layout_width="0dp"
+                android:layout_weight="0.3"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/item_number"
+                android:layout_marginTop="8dp"
+                android:text="5 %"
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:textColor="@color/colorGreen"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/newPtrLabel"
+                android:layout_width="0dp"
+                android:layout_weight="0.2"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/item_number"
+                android:layout_marginTop="8dp"
+                android:text="New PTR"
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:textColor="@color/colorGrey"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/newPTRValue"
+                android:layout_width="0dp"
+                android:layout_weight="0.3"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/item_number"
+                android:layout_marginTop="8dp"
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:textColor="@color/colorGrey"
+                android:textStyle="bold"
+                android:gravity="right"/>
+        </LinearLayout>
+
+
+
+        <TextView
+            android:id="@+id/tvTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_number"
+            android:layout_marginTop="8dp"
+            android:text="QTY * PTR : 10 * 101"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textColor="@color/colorGrey"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/discountLL" />
+
+        <TextView
+            android:id="@+id/totalValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_number"
+            android:layout_marginTop="8dp"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textColor="@color/colorGrey"
+            android:textStyle="bold"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/discountLL" />
+
+        <TextView
+            android:id="@+id/tvTax"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_number"
+            android:layout_marginTop="8dp"
+            android:text="Tax(GST)"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textColor="@color/colorGrey"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTotal" />
+
+        <TextView
+            android:id="@+id/taxValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_number"
+            android:layout_marginTop="8dp"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textColor="@color/colorGrey"
+            android:textStyle="bold"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/totalValue" />
+
+
+        <TextView
+            android:id="@+id/tv_nettotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_number"
+            android:layout_marginTop="8dp"
+            android:text="Net Total"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTax" />
+
+        <TextView
+            android:id="@+id/netTotalValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTax" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.cardview.widget.CardView>

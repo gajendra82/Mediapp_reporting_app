@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/selection_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:layout_gravity="center"
+    android:layout_marginTop="10dp"
+    android:background="@color/floatingbutton"
+    android:gravity="center"
+    android:titleTextColor="#ffffff">
+
+    <LinearLayout
+        android:id="@+id/Ltautosearch"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <ImageView
+            android:id="@+id/backIcon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.3"
+            app:srcCompat="@drawable/ic_keyboard_backspace_white_24dp" />
+
+
+
+        <LinearLayout
+            android:id="@+id/LL_autocomp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="6dp"
+            android:layout_marginTop="6dp"
+            android:layout_toRightOf="@+id/cancelBtn"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:hint="Search Company"
+            android:padding="3dp"
+            android:textColor="#000">
+
+
+
+
+
+
+
+
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/searchedittextbackground"
+                    >
+
+                    <ImageView
+                        android:id="@+id/imgsearch"
+                        android:layout_width="75dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                       />
+
+
+
+
+
+
+
+
+                    <EditText
+                        android:id="@+id/spnrSearchMedicineSelection"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="1dp"
+                        android:gravity="center|left"
+                        android:hint="Search"
+                        android:textSize="14dp"
+                        android:padding="5dp"
+                        android:layout_toRightOf="@+id/imgsearch"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:background="@drawable/searchedittextbackground"/>
+
+
+                </RelativeLayout>
+
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvProductCount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.3"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:textSize="20dp" />
+
+        <ImageView
+            android:id="@+id/addToCart"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.3"
+            android:src="@drawable/cartadds" />
+
+    </LinearLayout>
+</androidx.appcompat.widget.Toolbar>
+

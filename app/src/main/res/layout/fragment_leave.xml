@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="10"
+    tools:context=".fragment.FragmentLeave">
+
+    <!-- TODO: Update blank fragment layout -->
+<!--    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="5dp"
+        android:layout_weight="1"
+        android:gravity="center|left"
+        android:text="@string/hello_blank_fragment"
+        android:textColor="@color/colorBlack"
+        android:textSize="16dp" />-->
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:weightSum="2">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="left|center"
+            android:paddingLeft="20dp"
+            android:text="Select dates:-"
+            android:textColor="@color/black"
+            android:textSize="16dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <LinearLayout
+                android:id="@+id/ll_fromdate"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <TextView
+                    android:id="@+id/cal_from"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".2"
+                    android:gravity="center|right"
+                    android:text="@string/calender_icon"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="25dp" />
+
+                <TextView
+                    android:id="@+id/selectfromdate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight=".8"
+                    android:gravity="center|left"
+                    android:text="Select From"
+                    android:textColor="@color/black"
+                    android:textSize="14dp"
+
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_todate"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:clickable="false"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <TextView
+                    android:id="@+id/cal_to"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".2"
+                    android:gravity="center|right"
+                    android:text="@string/calender_icon"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="25dp" />
+
+                <TextView
+                    android:id="@+id/selecttodate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight=".8"
+                    android:gravity="left|center"
+                    android:text="Select To"
+                    android:textColor="@color/black"
+                    android:textSize="14dp"
+
+                    />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="vertical"
+        android:weightSum="1"
+        android:layout_margin="10dp">
+
+        <EditText
+            android:id="@+id/et_reasonforleave"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/edittext_border"
+            android:hint="Reason"
+            android:inputType="textMultiLine"
+            android:gravity="top"
+            android:maxLines="5"
+            android:scrollbars="vertical"
+            android:padding="5dp" />
+
+        <!-- <android.support.design.widget.TextInputLayout
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:layout_margin="8dp">
+
+         </android.support.design.widget.TextInputLayout>-->
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_apply"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
+        android:background="@drawable/roundedcorner_button"
+        android:padding="12dp"
+        android:text="Apply Leave"
+        android:textColor="#fff"
+        android:textSize="16dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"></View>
+
+</LinearLayout>

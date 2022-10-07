@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/analytics"
+            android:icon="@drawable/ic_analytics"
+            android:iconTint="@color/colorPrimary"
+            android:title="Dashboard" />
+
+        <item
+            android:id="@+id/subordinateList"
+            android:icon="@drawable/subordinate_icon"
+            android:iconTint="@color/colorPrimary"
+            android:title="Subordinate List" />
+        <item
+            android:id="@+id/home"
+            android:icon="@drawable/reporting"
+            android:iconTint="@color/colorPrimary"
+            android:title="Place Order" />
+
+        <item
+            android:id="@+id/addcoveredpincode"
+            android:icon="@drawable/ic_not_interested"
+            android:iconTint="@color/colorPrimary"
+            android:title="Add Covered Pin Code" />
+
+        <item
+            android:id="@+id/notInterestedChemist"
+            android:icon="@drawable/ic_not_interested"
+            android:iconTint="@color/colorPrimary"
+            android:title="Not Interested Chemist" />
+
+        <item
+            android:id="@+id/applyleave"
+            android:icon="@drawable/ic_calendar"
+            android:iconTint="@color/colorPrimary"
+            android:title="Apply Leave" />
+        <item
+            android:id="@+id/chemistCampaign"
+            android:icon="@drawable/speaker"
+            android:iconTint="@color/colorPrimary"
+            android:title="Campaign" />
+        <item
+            android:id="@+id/coveredChemist"
+            android:icon="@drawable/coveredchemist"
+            android:iconTint="@color/colorPrimary"
+            android:title="Covered Chemist" />
+        <item
+            android:id="@+id/otherReporting"
+            android:icon="@drawable/reporting"
+            android:iconTint="@color/colorPrimary"
+            android:title="Other Reporting" />
+
+        <item
+            android:id="@+id/changePassword"
+            android:icon="@drawable/refresh"
+            android:iconTint="@color/colorPrimary"
+            android:title="Change Password" />
+       <!-- <item
+            android:id="@+id/orderDetails"
+            android:icon="@drawable/order_icon"
+            android:iconTint="@color/colorPrimary"
+            android:title="My Orders" />-->
+        <item
+            android:id="@+id/signOut"
+            android:icon="@drawable/ic_power"
+            android:iconTint="@color/colorPrimary"
+            android:title="Sign Out" />
+    </group>
+
+</menu>

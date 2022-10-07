@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="10"
+    android:background="@color/white"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:layout_gravity="center|left"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center|left">
+
+
+        <include layout="@layout/redeemtoolbarlayout" />
+
+        <include
+            layout="@layout/product_search_toolbar"
+            android:visibility="gone" />
+
+        <include
+            layout="@layout/selection_toolbar"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+
+
+
+    <LinearLayout
+
+        android:id="@+id/ll_brands"
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:weightSum="2"
+        android:layout_height="40dp" >
+
+
+        <LinearLayout
+            android:id="@+id/ll_category"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.6"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:text="CATEGORY"/>
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/downarrow"
+                android:tint="@color/white"
+                android:gravity="center"
+                android:textStyle="bold"
+                />
+        </LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:background="@color/white"/>
+        <LinearLayout
+            android:id="@+id/ll_companyname"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.6"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:text="Company names"/>
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/downarrow"
+                android:tint="@color/white"
+                android:gravity="center"
+                android:textStyle="bold"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="8.8"
+        android:background="@color/colorWhite"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:id="@+id/rl_cat"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+
+
+
+            <include
+                layout="@layout/prdwisediscountincludelayout"
+                tools:layout_editor_absoluteY="418dp"
+                />
+
+
+
+
+
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+
+
+
+
+
+
+
+
+
+
+                <LinearLayout
+                    android:id="@+id/ll_carddetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:visibility="gone"
+                    android:orientation="horizontal"
+                    android:background="#B0000000"
+
+
+                    >
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_category"
+                        android:layout_width="0dp"
+                        android:background="@color/white"
+                        android:layout_height="wrap_content"
+                        android:visibility="invisible"
+                        android:layout_marginBottom="45dp"
+                        android:layout_weight="0.5" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_companynames"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:visibility="invisible"
+                        android:layout_weight="0.5" />
+
+
+                </LinearLayout>
+
+
+                <FrameLayout
+                    android:id="@+id/frameimg_filter"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true">
+
+
+                    <ProgressBar
+                        android:id="@+id/progress_img_filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:visibility="gone" />
+                </FrameLayout>
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

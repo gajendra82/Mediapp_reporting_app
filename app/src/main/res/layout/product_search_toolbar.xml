@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar android:id="@+id/searchtoolbar"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    app:collapseIcon="@drawable/back_arrow"
+    app:titleTextColor="@color/gridbackcolor"
+    android:layout_width="match_parent"
+    android:paddingTop="5dp"
+    android:layout_height="?attr/actionBarSize"
+    android:background="@color/white"
+    app:layout_scrollFlags="scroll|enterAlways"
+    android:layout_centerInParent="true"
+
+
+    />

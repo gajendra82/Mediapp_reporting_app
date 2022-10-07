@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "522320877989",
+    "firebase_url": "https://miljon-sales.firebaseio.com",
+    "project_id": "miljon-sales",
+    "storage_bucket": "miljon-sales.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:522320877989:android:b2bd233925f95cac",
+        "android_client_info": {
+          "package_name": "com.globalspace.miljonsales"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "522320877989-fcc75bpig284km587fegt6ds6i9qt5kk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDBxggdebNnm_Ub6Zo-p-noQ0Ddf63Q5I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
