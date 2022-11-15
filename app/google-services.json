@@ -1,39 +1,36 @@
 {
   "project_info": {
-    "project_number": "522320877989",
-    "firebase_url": "https://miljon-sales.firebaseio.com",
-    "project_id": "miljon-sales",
-    "storage_bucket": "miljon-sales.appspot.com"
+    "project_number": "1087609257309",
+    "project_id": "mediapp-reporting-d9398",
+    "storage_bucket": "mediapp-reporting-d9398.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:522320877989:android:b2bd233925f95cac",
+        "mobilesdk_app_id": "1:1087609257309:android:1c76f8ef4ee7f18dcd7cb4",
         "android_client_info": {
           "package_name": "com.globalspace.miljonsales"
         }
       },
       "oauth_client": [
         {
-          "client_id": "522320877989-fcc75bpig284km587fegt6ds6i9qt5kk.apps.googleusercontent.com",
+          "client_id": "1087609257309-ntot6f71oq7ssjmb15k88ld6sfa0hq7m.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBDBxggdebNnm_Ub6Zo-p-noQ0Ddf63Q5I"
+          "current_key": "AIzaSyD5PdCBAQIZTPxhZKEFS0Ftp6zrs7xDVIs"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1087609257309-ntot6f71oq7ssjmb15k88ld6sfa0hq7m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

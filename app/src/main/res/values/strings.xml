@@ -38,11 +38,44 @@
 
 
     <!-- Error Messages -->
-
-    <string name="hint_name">Enter Name</string>
+    <string name="create">Create +</string>
+    <string name="required">Required*</string>
+    <string name="hint_name">Enter Name*</string>
+    <string name="hint_contactname">Enter Contact Person Name*</string>
+    <string name="hint_contactnum">Enter Contact Number*</string>
+    <string name="hint_pincode">Enter Pincode*</string>
+    <string name="hint_address">Enter Address*</string>
+    <string name="hint_comment">Enter Comment</string>
+    <string name="hint_obervation">Enter Observation*</string>
+    <string name="hint_state">Select State*</string>
+    <string name="hint_city">Select City*</string>
+    <string name="hint_cons_strength">Select Strength*</string>
+    <string name="hint_cons_brand">Select Brand*</string>
+    <string name="hint_boardimage">Board Image*</string>
+    <string name="hint_phyimg">Physician List*</string>
+    <string name="hint_hospital">Type of Hospital*</string>
+    <string name="hint_rooms">Number of Rooms</string>
+    <string name="hint_beds">Number of Beds</string>
+    <string name="hint_item">Select Item</string>
     <string name="hint_ownerphone">Owner Phone Number</string>
+    <string name="available">Available</string>
+    <string name="not_avail">Not Available</string>
     <string name="hint_ownerown">Own Number</string>
     <string name="hint_password">Create Password</string>
+    <string name="hint_strength">Strength*</string>
+    <string name="hint_competitor">Competitor Brand*</string>
+    <string name="hint_comp_brand">Select Competitor Brand*</string>
+    <string name="hint_reason">Reason*</string>
+    <string name="hint_brand">Brand*</string>
+    <string name="hint_qty">Quantity*</string>
+    <string name="qty">Quantity %s</string>
+    <string name="rate">Rate %s</string>
+    <string name="mrp">MRP %s</string>
+    <string name="Name">Name: %s</string>
+    <string name="Designation">Designaton: %s</string>
+    <string name="ContactNum">ContactNumber: %s</string>
+    <string name="hint_rate">Rate*</string>
+    <string name="hint_mrprate">Mrp Rate*</string>
     <string name="err_msg_name">Enter your full name</string>
     <string name="err_msg_shopname">Enter your Shop name</string>
     <string name="err_msg_city">Enter your City name</string>
@@ -64,7 +97,18 @@
     <string name="err_msg_validmobileno">Enter valid Mobile No</string>
     <string name="err_msg_pin">Pin number should not be less than 6 digits</string>
 
+    <string name="hint_gstno">Enter GST Number</string>
+    <string name="hint_panno">Enter PAN Number</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="ok" />
+
+    <string-array name="Reasons">
+        <item>No One Visited</item>
+        <item>Cost is High</item>
+        <item>Molecule is not available</item>
+        <item>Other</item>
+    </string-array>
 
 </resources>

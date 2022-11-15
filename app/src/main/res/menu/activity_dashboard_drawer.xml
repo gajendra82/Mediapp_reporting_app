@@ -22,6 +22,12 @@
             android:title="Place Order" />
 
         <item
+            android:id="@+id/hospital"
+            android:icon="@drawable/reporting"
+            android:iconTint="@color/colorPrimary"
+            android:title="RCPA" />
+
+        <item
             android:id="@+id/addcoveredpincode"
             android:icon="@drawable/ic_not_interested"
             android:iconTint="@color/colorPrimary"

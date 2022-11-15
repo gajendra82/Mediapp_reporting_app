@@ -19,7 +19,7 @@
     <color name="background">#EDEDED</color>
 
     <color name="gridbackcolor">#BEBEBE</color>
-
+    <color name="grey">#E5E5E5</color>
 
     <color name="white">#ffffffff</color>
     <color name="colorShimmer">#DDDDDD</color>

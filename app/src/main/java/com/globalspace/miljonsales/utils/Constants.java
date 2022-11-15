@@ -21,6 +21,7 @@ public class Constants {
     //public static String login_url = "http://testing.solt.in/mediapp/sales_reporting/";
 
 
+    public static String BASE_URL = "http://13.127.182.214/mediapp/miljon_advance/uat/sales_reporting/v1/";
 
     //reporting.php
 

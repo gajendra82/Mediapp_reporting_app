@@ -7,9 +7,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.globalspace.miljonsales.fragment.AddcoveredpincodeFragment;
+import com.globalspace.miljonsales.ui.add_details_dashboard.AddDetailsDashboardFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AlertDialog;
 import android.view.View;
@@ -38,6 +40,10 @@ import com.globalspace.miljonsales.fragment.FragmentReporting;
 import com.globalspace.miljonsales.fragment.FragmentSubordinatesList;
 import com.globalspace.miljonsales.fragment.FragmentLeave;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Date;
+
 public class Dashboard extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private Toolbar toolbar;
@@ -53,7 +59,7 @@ public class Dashboard extends AppCompatActivity
     private Fragment fragment;
     private FragmentTransaction transaction;
     private Toolbar searchToolbar, editToolbar;
-
+    private SimpleDateFormat sdf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -217,6 +223,18 @@ public class Dashboard extends AppCompatActivity
             groupBtn.setVisibility(View.GONE);
             editBtn.setVisibility(View.GONE);
             toolbartitle.setText("Call Report");
+        } else if (id == R.id.hospital) {
+            fragment = new AddDetailsDashboardFragment();
+          //  fragment = FragmentReporting.newInstance(getSupportFragmentManager());
+            getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, fragment).commit();
+            fab.setVisibility(View.VISIBLE);
+            refreshBtn.setVisibility(View.GONE);
+            groupBtn.setVisibility(View.GONE);
+            editBtn.setVisibility(View.GONE);
+            searchBtn.setVisibility(View.GONE);
+            sdf = new SimpleDateFormat("dd MMMM yyyy");
+            String currentDate = sdf.format(new Date());
+            toolbartitle.setText(currentDate);
         } else if (id == R.id.addcoveredpincode) {
             fragment = new AddcoveredpincodeFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, fragment).commit();
@@ -350,5 +368,13 @@ public class Dashboard extends AppCompatActivity
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(toolbartitle.getText().equals("Add Details")){
+            fragment = new AddDetailsDashboardFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, fragment).commit();
+        }
 
+    }
 }
