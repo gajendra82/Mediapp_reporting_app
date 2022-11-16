@@ -45,6 +45,7 @@
     <string name="hint_contactnum">Enter Contact Number*</string>
     <string name="hint_pincode">Enter Pincode*</string>
     <string name="hint_address">Enter Address*</string>
+    <string name="hint_emailID">Enter Email ID*</string>
     <string name="hint_comment">Enter Comment</string>
     <string name="hint_obervation">Enter Observation*</string>
     <string name="hint_state">Select State*</string>
@@ -75,7 +76,7 @@
     <string name="Designation">Designaton: %s</string>
     <string name="ContactNum">ContactNumber: %s</string>
     <string name="hint_rate">Rate*</string>
-    <string name="hint_mrprate">Mrp Rate*</string>
+    <string name="hint_mrprate">MRP Rate*</string>
     <string name="err_msg_name">Enter your full name</string>
     <string name="err_msg_shopname">Enter your Shop name</string>
     <string name="err_msg_city">Enter your City name</string>
@@ -99,6 +100,9 @@
 
     <string name="hint_gstno">Enter GST Number</string>
     <string name="hint_panno">Enter PAN Number</string>
+
+    <string name="splash_bottom_text">www.globalspace.in</string>
+    <string name="splash_bottom_text1">Powered by Mediola</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

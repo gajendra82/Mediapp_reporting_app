@@ -124,7 +124,6 @@ class AddDetailsRepository @Inject constructor(
                                         it.response.toString(),
                                         Toast.LENGTH_SHORT
                                     ).show()
-                                    activity.finish()
                                 }
                             }
                         }

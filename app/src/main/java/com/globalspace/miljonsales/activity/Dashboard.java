@@ -371,7 +371,9 @@ public class Dashboard extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        if(toolbartitle.getText().equals("Add Details")){
+        sdf = new SimpleDateFormat("dd MMMM yyyy");
+        String currentDate = sdf.format(new Date());
+        if(toolbartitle.getText().equals(currentDate)){
             fragment = new AddDetailsDashboardFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, fragment).commit();
         }

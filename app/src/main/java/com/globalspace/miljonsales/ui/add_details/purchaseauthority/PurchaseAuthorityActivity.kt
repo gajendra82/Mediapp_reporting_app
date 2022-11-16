@@ -50,10 +50,7 @@ class PurchaseAuthorityActivity : AppCompatActivity() {
                     it.textinpName.error = "Please Enter Name"
             }
             it.edittextDesignation.doOnTextChanged { text, start, count, after ->
-                if (addDetailsViewModel!!.ValidateName(text.toString())) {
-                    it.textinpDesignation.error = null
-                } else
-                    it.textinpDesignation.error = "Please Enter Address"
+                addDetailsViewModel!!.ValidateEmailAddress(text.toString(), it.textinpDesignation)
             }
             it.edittextContactnum.doOnTextChanged { text, start, count, after ->
                 addDetailsViewModel!!.ValidateContactNumber(text.toString(), it.textinpContactnum)
@@ -64,7 +61,7 @@ class PurchaseAuthorityActivity : AppCompatActivity() {
     private fun AddDetailsValidation() {
         addDetailsViewModel?.let {
             if (it.ValidateName(it.strpurch_authorityname.value.toString())) {
-                if (it.ValidateName(it.strpurch_authoritydesignation.value.toString())) {
+                if (it.ValidateEmailAddress(it.strpurch_authoritydesignation.value.toString())) {
                     if (it.ValidateContactNumber(it.strpurch_authoritycontactnumber.value.toString())) {
                         it.addPurchaseAuthority()
                         onBackPressed()
@@ -72,7 +69,7 @@ class PurchaseAuthorityActivity : AppCompatActivity() {
                         Toast.makeText(this, "Please Enter Contact Number", Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    Toast.makeText(this, "Please Enter Address", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Please Enter Valid Email ID", Toast.LENGTH_SHORT).show()
                 }
             } else {
                 Toast.makeText(this, "Please Enter Name", Toast.LENGTH_SHORT).show()

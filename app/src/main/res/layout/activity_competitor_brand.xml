@@ -124,7 +124,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
-                android:hint="@string/hint_mrprate"
+                android:hint="@string/hint_rate"
                 app:boxStrokeColor="@color/colorPrimary"
                 app:errorEnabled="true"
                 app:hintTextColor="@color/colorPrimary"

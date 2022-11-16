@@ -72,7 +72,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
-                android:hint="@string/hint_address"
+                android:hint="@string/hint_emailID"
                 app:boxStrokeColor="@color/colorPrimary"
                 app:errorEnabled="true"
                 app:errorIconDrawable="@drawable/ic_baseline_error_24"
@@ -85,9 +85,8 @@
                     android:id="@+id/edittext_designation"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:inputType="text"
-                    android:text="@={purchaseactivity_data.strpurch_authoritydesignation}"
-                    android:maxLength="100" />
+                    android:inputType="textEmailAddress"
+                    android:text="@={purchaseactivity_data.strpurch_authoritydesignation}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout

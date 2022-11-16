@@ -55,6 +55,7 @@ class AddDetaillsDialog : DialogFragment(), AddDetailsDialogAdapter.onItemClickL
     lateinit var adapterstrength: AddDetailsDialogStrengthAdapter
 
     var strflag: String = "State"
+    var strcheckdata: Int = 0
 
     fun newInstance(addetailsViewModel: AddDetailsViewModel, flag: String) {
         this.addDetailsViewModel = addetailsViewModel
@@ -80,8 +81,11 @@ class AddDetaillsDialog : DialogFragment(), AddDetailsDialogAdapter.onItemClickL
 
     private fun setupView() {
         try {
+
             val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(requireContext())
             binding!!.listView.setLayoutManager(layoutManager)
+            strcheckdata = 0
+            binding!!.editText.setText("")
             if (strflag.equals("Hospital")) {
                 binding!!.tvtitle.setText(resources.getString(R.string.hint_hospital))
                 addDetailsViewModel.fetchHospData()
@@ -89,6 +93,7 @@ class AddDetaillsDialog : DialogFragment(), AddDetailsDialogAdapter.onItemClickL
                         override fun onChanged(t: List<FetchHospital>?) {
                             t?.let {
                                 Log.i("tag", it.toString())
+                                strcheckdata = it.size
                                 adapter =
                                     AddDetailsDialogHospitalAdapter(
                                         it,
@@ -106,6 +111,7 @@ class AddDetaillsDialog : DialogFragment(), AddDetailsDialogAdapter.onItemClickL
                     ?.observe(viewLifecycleOwner, object : Observer<List<FetchFacility>> {
                         override fun onChanged(t: List<FetchFacility>?) {
                             t?.let {
+                                strcheckdata = it.size
                                 var lstfacility = it as ArrayList<FetchFacility>
                                 if (addDetailsViewModel.lstfacility != null && addDetailsViewModel.lstfacility.size > 0) {
                                     addDetailsViewModel.lstfacility.forEachIndexed { index, fetchFacility1 ->
@@ -134,6 +140,7 @@ class AddDetaillsDialog : DialogFragment(), AddDetailsDialogAdapter.onItemClickL
                     ?.observe(viewLifecycleOwner, object : Observer<List<FetchSpeciality>> {
                         override fun onChanged(t: List<FetchSpeciality>?) {
                             t?.let {
+                                strcheckdata = it.size
                                 var lstspeciality = it as ArrayList<FetchSpeciality>
                                 if (addDetailsViewModel.lstspeciality != null && addDetailsViewModel.lstspeciality.size > 0) {
                                     addDetailsViewModel.lstspeciality.forEachIndexed { index, fetchFacility1 ->
@@ -162,6 +169,7 @@ class AddDetaillsDialog : DialogFragment(), AddDetailsDialogAdapter.onItemClickL
                     ?.observe(viewLifecycleOwner, object : Observer<List<FetchMolecule>> {
                         override fun onChanged(t: List<FetchMolecule>?) {
                             t?.let {
+                                strcheckdata = it.size
                                 var lstmolecule = it as ArrayList<FetchMolecule>
                                 if (addDetailsViewModel.lstmolecule != null && addDetailsViewModel.lstmolecule.size > 0) {
                                     addDetailsViewModel.lstmolecule.forEachIndexed { index, fetchFacility1 ->
@@ -190,6 +198,7 @@ class AddDetaillsDialog : DialogFragment(), AddDetailsDialogAdapter.onItemClickL
                     ?.observe(viewLifecycleOwner, object : Observer<List<FetchMolecule>> {
                         override fun onChanged(t: List<FetchMolecule>?) {
                             t?.let {
+                                strcheckdata = it.size
                                 var lststrength = it as ArrayList<FetchMolecule>
                                 if (addDetailsViewModel.lststrength != null && addDetailsViewModel.lststrength.size > 0) {
                                     addDetailsViewModel.lststrength.forEachIndexed { index, fetchFacility1 ->
@@ -219,6 +228,7 @@ class AddDetaillsDialog : DialogFragment(), AddDetailsDialogAdapter.onItemClickL
                     ?.observe(viewLifecycleOwner, object : Observer<List<FetchGeography>> {
                         override fun onChanged(t: List<FetchGeography>?) {
                             t?.let {
+                                strcheckdata = it.size
                                 rvAdapter =
                                     AddDetailsDialogAdapter(it, this@AddDetaillsDialog, strflag)
                                 binding!!.listView.adapter = rvAdapter
@@ -228,6 +238,7 @@ class AddDetaillsDialog : DialogFragment(), AddDetailsDialogAdapter.onItemClickL
                     })
             } else if (strflag.equals("ConsumptionStrength")) {
                 binding!!.tvtitle.setText(resources.getString(R.string.hint_cons_strength))
+                strcheckdata = 1
                 rvconsumpAdapter =
                     AddDetailsDialogConsumptionAdapter(
                         addDetailsViewModel.lststrength,
@@ -241,6 +252,7 @@ class AddDetaillsDialog : DialogFragment(), AddDetailsDialogAdapter.onItemClickL
                     ?.observe(viewLifecycleOwner, object : Observer<List<FetchMolecule>> {
                         override fun onChanged(t: List<FetchMolecule>?) {
                             t?.let {
+                                strcheckdata = it.size
                                 Log.i("tag", it.toString())
                                 rvconsumpAdapter =
                                     AddDetailsDialogConsumptionAdapter(
@@ -255,6 +267,7 @@ class AddDetaillsDialog : DialogFragment(), AddDetailsDialogAdapter.onItemClickL
                     })
             } else if (strflag.equals("CompetitorStrength")) {
                 binding!!.tvtitle.setText(resources.getString(R.string.hint_cons_strength))
+                strcheckdata = 1
                 Log.i("strength", addDetailsViewModel.lststrength.toString())
                 rvcompbrandAdapter =
                     AddDetailsDialogCompetitorBrandAdapter(
@@ -269,10 +282,11 @@ class AddDetaillsDialog : DialogFragment(), AddDetailsDialogAdapter.onItemClickL
                     ?.observe(viewLifecycleOwner, object : Observer<List<FetchMolecule>> {
                         override fun onChanged(t: List<FetchMolecule>?) {
                             t?.let {
+                                strcheckdata = it.size
                                 Log.i("tag", it.toString())
                                 rvcompbrandAdapter =
                                     AddDetailsDialogCompetitorBrandAdapter(
-                                       it,
+                                        it,
                                         this@AddDetaillsDialog, strflag
                                     )
                                 binding!!.listView.adapter = rvcompbrandAdapter
@@ -286,6 +300,7 @@ class AddDetaillsDialog : DialogFragment(), AddDetailsDialogAdapter.onItemClickL
                     ?.observe(viewLifecycleOwner, object : Observer<List<FetchGeography>> {
                         override fun onChanged(t: List<FetchGeography>?) {
                             t?.let {
+                                strcheckdata = it.size
                                 rvAdapter =
                                     AddDetailsDialogAdapter(it, this@AddDetaillsDialog, strflag)
                                 binding!!.listView.adapter = rvAdapter
@@ -295,6 +310,7 @@ class AddDetaillsDialog : DialogFragment(), AddDetailsDialogAdapter.onItemClickL
                     })
             } else if (strflag.equals("ConsumptionReasons")) {
                 binding!!.tvtitle.setText(resources.getString(R.string.hint_reason))
+                strcheckdata = 1
                 val lstreasons = resources.getStringArray(R.array.Reasons)
                 /*rvAdapter =
                     AddDetailsReasonAdapter(lstreasons)*/
@@ -306,6 +322,7 @@ class AddDetaillsDialog : DialogFragment(), AddDetailsDialogAdapter.onItemClickL
                     ?.observe(viewLifecycleOwner, object : Observer<List<FetchGeography>> {
                         override fun onChanged(t: List<FetchGeography>?) {
                             t?.let {
+                                strcheckdata = it.size
                                 rvAdapter =
                                     AddDetailsDialogAdapter(it, this@AddDetaillsDialog, strflag)
                                 binding!!.listView.adapter = rvAdapter
@@ -325,7 +342,7 @@ class AddDetaillsDialog : DialogFragment(), AddDetailsDialogAdapter.onItemClickL
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable) {
-                if (!s.toString().equals("")) {
+                if (strcheckdata > 0) {
                     if (strflag.equals("Hospital"))
                         adapter.getFilter().filter(s)
                     else if (strflag.equals("Facility"))
@@ -349,6 +366,7 @@ class AddDetaillsDialog : DialogFragment(), AddDetailsDialogAdapter.onItemClickL
 
     override fun onStart() {
         super.onStart()
+        binding!!.editText.setText("")
         dialog?.window?.setLayout(
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.WRAP_CONTENT

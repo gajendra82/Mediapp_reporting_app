@@ -21,6 +21,7 @@ import com.globalspace.miljonsales.ui.add_details_dashboard.*
 import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -295,7 +296,7 @@ class AddDetailsViewModel @Inject constructor(
         {
             textinp_cn.error = null
         }else{
-            textinp_cn.error = "Please Enter Valid Pan No"
+            textinp_cn.error = "Please Enter Valid PAN No"
         }
     }
 
@@ -315,9 +316,18 @@ class AddDetailsViewModel @Inject constructor(
         {
             textinp_cn.error = null
         }else{
-            textinp_cn.error = "Please Enter Valid Gst No"
+            textinp_cn.error = "Please Enter Valid GST No"
         }
 
+    }
+
+    fun ValidateEmailAddress(text: String, textinp_cn: TextInputLayout){
+        val EMAIL_REGEX = "^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})";
+
+        if(EMAIL_REGEX.toRegex().matches(text)){
+            textinp_cn.error = null
+        }else
+            textinp_cn.error = "Please Enter Valid Email ID"
     }
 
     fun ValidateGstNo(text: String) : Boolean{
@@ -357,6 +367,17 @@ class AddDetailsViewModel @Inject constructor(
             return false
         }
     }
+
+    fun ValidateEmailAddress(text: String) : Boolean{
+        val EMAIL_REGEX = "^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})";
+
+        if(EMAIL_REGEX.toRegex().matches(text)){
+            return true
+        }else
+           return false
+    }
+
+
 
     fun ValidateCompetitorBrand(): Boolean {
         lstcompetitorBrand.value?.let {
@@ -539,7 +560,7 @@ class AddDetailsViewModel @Inject constructor(
         activity: AddDetailsActivity,
         addDetailsProgressbar: ProgressBar
     ) {
-        viewModelScope.launch {
+        viewModelScope.async {
             val obj_data = JsonObject()
             obj_data.addProperty("name", strname.value.toString())
             obj_data.addProperty("address", straddress.value.toString())
@@ -672,13 +693,16 @@ class AddDetailsViewModel @Inject constructor(
 
             Log.i("jsondata", all_data.toString())
             //endregion
-            repository.SubmitRCPA(
-                activity, all_data, addDetailsProgressbar
-            )
+            viewModelScope.async {
+                repository.SubmitRCPA(
+                    activity, all_data, addDetailsProgressbar
+                )
+            }.await()
+            UploadMultiPartImages(addDetailsProgressbar,activity)
         }
     }
 
-    fun UploadMultiPartImages(addDetailsProgressbar: ProgressBar) {
+    fun UploadMultiPartImages(addDetailsProgressbar: ProgressBar, activity: AddDetailsActivity) {
         viewModelScope.launch {
             try {
                 addDetailsProgressbar.visibility = View.VISIBLE
@@ -692,13 +716,16 @@ class AddDetailsViewModel @Inject constructor(
 
                     //Uploading code
                     try {
-                        repository.SubmitRCPAImages(
-                            sPref!!.getString(
-                                context.getResources().getString(R.string.employee_id),
-                                ""
+                        viewModelScope.async {
+                            repository.SubmitRCPAImages(
+                                sPref!!.getString(
+                                    context.getResources().getString(R.string.employee_id),
+                                    ""
+                                )
+                                    .toString(), path, text,flag, addDetailsProgressbar
                             )
-                                .toString(), path, text,flag, addDetailsProgressbar
-                        )
+                        }.await()
+                        activity.finish()
                     } catch (exc: Exception) {
                         exc.printStackTrace()
                         /* Toast.makeText(this, exc.getMessage(), Toast.LENGTH_SHORT).show();*/

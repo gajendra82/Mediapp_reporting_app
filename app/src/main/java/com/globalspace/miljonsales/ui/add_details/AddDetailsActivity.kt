@@ -286,7 +286,6 @@ class AddDetailsActivity : AppCompatActivity() {
             if (it.ValidateGstNo(it.strgstno.value.toString())) {
                 if (it.ValidatePanNo(it.strpanno.value.toString())) {
                     binding!!.addDetailsProgressbar.visibility = View.VISIBLE
-                    addDetailsViewModel.UploadMultiPartImages(binding!!.addDetailsProgressbar)
                     addDetailsViewModel.SubmitRCPAData(this, binding!!.addDetailsProgressbar)
                 } else {
                     Toast.makeText(this, "Please Enter Valid Pan Number", Toast.LENGTH_SHORT).show()
