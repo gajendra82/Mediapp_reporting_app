@@ -69,9 +69,9 @@
     <string name="hint_reason">Reason*</string>
     <string name="hint_brand">Brand*</string>
     <string name="hint_qty">Quantity*</string>
-    <string name="qty">Quantity %s</string>
-    <string name="rate">Rate %s</string>
-    <string name="mrp">MRP %s</string>
+    <string name="qty">Quantity: %s</string>
+    <string name="rate">Rate: %s</string>
+    <string name="mrp">MRP: %s</string>
     <string name="Name">Name: %s</string>
     <string name="Designation">Designaton: %s</string>
     <string name="ContactNum">ContactNumber: %s</string>

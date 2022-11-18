@@ -379,10 +379,14 @@ class AddDetaillsDialog : DialogFragment(), AddDetailsDialogAdapter.onItemClickL
     }
 
     override fun onItemClick(position: Int, fetchGeography: FetchGeography) {
-        if (strflag.equals("State"))
+        if (strflag.equals("State")) {
             addDetailsViewModel.lstdata.value = fetchGeography
-        else if (strflag.equals("StockistState"))
+            addDetailsViewModel.lstcitydata.value = null
+        }
+        else if (strflag.equals("StockistState")) {
             addDetailsViewModel.lststockdata.value = fetchGeography
+            addDetailsViewModel.lststockcitydata.value = null
+        }
         else if (strflag.equals("StockistCity"))
             addDetailsViewModel.lststockcitydata.value = fetchGeography
         else

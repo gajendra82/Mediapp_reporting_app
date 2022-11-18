@@ -1,11 +1,12 @@
 package com.globalspace.miljonsales.ui.add_details_dashboard
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.globalspace.miljonsales.MyApplication
 import com.globalspace.miljonsales.R
 import com.globalspace.miljonsales.databinding.AddDetailsFragmentBinding
+import com.globalspace.miljonsales.interface_.di.AppPreference
 import com.globalspace.miljonsales.local_db.entity.FetchHospitalSummmary
 import com.globalspace.miljonsales.ui.add_details.AddDetailsActivity
 import com.globalspace.miljonsales.viewmodelfactory.MainViewModelFactoryNew
@@ -28,6 +30,9 @@ class AddDetailsDashboardFragment : Fragment(R.layout.add_details_fragment) {
     lateinit var floatingActionButton: FloatingActionButton
     private var _binding: AddDetailsFragmentBinding? = null
     private val binding get() = _binding
+    private var sPref: SharedPreferences? = null
+    @Inject
+    lateinit var appPreference: AppPreference
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -41,6 +46,14 @@ class AddDetailsDashboardFragment : Fragment(R.layout.add_details_fragment) {
                     AddDetailsDashboardViewModel::class.java
                 )
             dashboardViewModel.StartGeoSync(binding!!.progressBarDashboard)
+            sPref = requireContext().getSharedPreferences(
+                requireContext().getResources().getString(R.string.app_name), Context.MODE_PRIVATE
+            )
+            val userID = sPref!!.getString(requireContext().getResources().getString(R.string.employee_id), "")
+                .toString()
+            Log.i("tag"," user ID ${appPreference.getUserId().toString()}")
+            if(appPreference.getUserId().equals(""))
+            appPreference.setUserId(userID)
             addRecyclerview()
             addrvHosp()
             dashboardViewModel.fetchHospSummaryData()

@@ -9,12 +9,14 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.lifecycle.MutableLiveData
+import com.globalspace.miljonsales.interface_.di.AppPreference
 import com.globalspace.miljonsales.interface_.di.GrantPermission
 import com.globalspace.miljonsales.local_db.database.AppDatabase
 import com.globalspace.miljonsales.retrofit.ApiInterfaceNew
 import com.globalspace.miljonsales.ui.add_details_dashboard.setHospitalDetails
 import com.globalspace.miljonsales.utils.Internet
 import com.google.gson.JsonObject
+import com.karumi.dexter.PermissionToken
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -29,15 +31,18 @@ class AddDetailsRepository @Inject constructor(
     private val apiInterfaceNew: ApiInterfaceNew,
     private val context: Context,
     private val db: AppDatabase,
+    private val appPreference: AppPreference,
     private val permission: GrantPermission
 ) : CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main
 
     val flag_checkpermission = MutableLiveData<Boolean>()
-    val flag_checkgallerypermission = MutableLiveData<Boolean>()
+    val flag_checklocationpermission = MutableLiveData<Boolean>()
 
     fun FetchState() = db.daoDb().getAllState()
+    fun FetchState(state: String) = db.daoDb().getState(state)
+    fun FetchCity(city: String) = db.daoDb().getCity(city)
 
     fun FetchStateCity(statecode: Int) = db.daoDb().getAllStateCity(statecode)
 
@@ -53,7 +58,6 @@ class AddDetailsRepository @Inject constructor(
     fun FetchCompetitorBrand(strength : String) = db.daoDb().getAllCompetitorBrand(strength)
 
     suspend fun SubmitRCPAImages(
-        employeeID: String,
         path: String,
         text: String,
         flag : String,
@@ -66,7 +70,7 @@ class AddDetailsRepository @Inject constructor(
             val body = MultipartBody.Part.createFormData("image", file.name, requestfile)
             val fn_name =
                 RequestBody.create(MediaType.parse("multipart/form-data"), "SetHospitalImagesData")
-            val empID = RequestBody.create(MediaType.parse("multipart/form-data"), employeeID)
+            val empID = RequestBody.create(MediaType.parse("multipart/form-data"), appPreference.getUserId())
             val imagetext = RequestBody.create(MediaType.parse("multipart/form-data"), text)
             val strflag = RequestBody.create(MediaType.parse("multipart/form-data"), flag)
             withContext(Dispatchers.IO) {

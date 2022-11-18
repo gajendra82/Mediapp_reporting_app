@@ -2,6 +2,7 @@ package com.globalspace.miljonsales.di
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
+import com.globalspace.miljonsales.activity.Login
 import com.globalspace.miljonsales.ui.add_details.AddDetailsActivity
 import com.globalspace.miljonsales.ui.add_details.AddDetailsFragment
 import com.globalspace.miljonsales.ui.add_details.comments_observation.CommentsObservationFragment
@@ -34,6 +35,7 @@ interface ApplicationComponent {
 
     fun getMap() : Map<Class<*>, ViewModel>
     fun inject(addDetailsFragment: AddDetailsDashboardFragment)
+    fun inject(login: Login)
     fun inject(frag_add_details: AddDetailsFragment)
     fun inject(commentsObservationFragment: CommentsObservationFragment)
     fun inject(facilityFragment: FacilityFragment)

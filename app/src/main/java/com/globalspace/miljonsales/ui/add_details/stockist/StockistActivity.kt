@@ -1,9 +1,23 @@
 package com.globalspace.miljonsales.ui.add_details.stockist
 
+import android.Manifest
+import android.app.AlertDialog
+import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Geocoder
+import android.location.LocationManager
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
+import android.view.MotionEvent
+import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -16,6 +30,9 @@ import com.globalspace.miljonsales.ui.add_details.AddDetailsViewModel
 import com.globalspace.miljonsales.ui.add_details.consumptions.ConsumptionFragment
 import com.globalspace.miljonsales.utils.WindowBar
 import com.globalspace.miljonsales.viewmodelfactory.MainViewModelFactoryNew
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import java.util.*
 import javax.inject.Inject
 
 class StockistActivity : AppCompatActivity() {
@@ -26,6 +43,9 @@ class StockistActivity : AppCompatActivity() {
 
     @Inject
     lateinit var mainviewmodelFactory: MainViewModelFactoryNew
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    lateinit var geocoder: Geocoder
+    var check_flag = "new"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +62,9 @@ class StockistActivity : AppCompatActivity() {
         binding.toolbarStockist.setNavigationOnClickListener {
             onBackPressed()
         }
+        geocoder = Geocoder(this, Locale.getDefault())
+        fusedLocationProviderClient =
+            LocationServices.getFusedLocationProviderClient(this)
         binding?.let{
             it.edittextstockState.setOnClickListener {
                 Log.i("tag", "clicked")
@@ -78,6 +101,27 @@ class StockistActivity : AppCompatActivity() {
                 addDetailsViewModel!!.ValidateContactNumber(text.toString(), it.textinpContactnum)
             }
 
+            it.edittextstockAddress.setOnTouchListener(View.OnTouchListener { v, event ->
+                val DRAWABLE_RIGHT = 2
+                if (event.action == MotionEvent.ACTION_UP) {
+                    if (event.rawX >= it.edittextstockAddress.getRight() - it.edittextstockAddress.getCompoundDrawables()
+                            .get(DRAWABLE_RIGHT).getBounds().width()
+                    ) {
+                        check_flag = "address"
+                        addDetailsViewModel!!.calllocationpermission(
+                            applicationContext,this@StockistActivity,
+                            requestPermissionLauncher
+                        )
+                        return@OnTouchListener true
+                    }
+                }
+                false
+            })
+            addDetailsViewModel!!.checklocationpermission.observe(this, Observer {
+                if (it == true && check_flag.equals("address")) {
+                    getCurrentLocation()
+                }
+            })
 
             addDetailsViewModel!!.lststockdata.observe(this, Observer {
                 if (it == null)
@@ -98,6 +142,94 @@ class StockistActivity : AppCompatActivity() {
 
     }
 
+    val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            getCurrentLocation()
+        } else {
+            handlePermanentDeniedPermission()
+        }
+    }
+
+    private fun isLocationEnabled(): Boolean {
+        val locationManager: LocationManager =
+            getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
+            LocationManager.NETWORK_PROVIDER
+        )
+    }
+
+    private fun getCurrentLocation() {
+        if (isLocationEnabled()) {
+            try {
+                if (ActivityCompat.checkSelfPermission(
+                       this,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+
+                    //requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+                }
+                val lastLoction = fusedLocationProviderClient.lastLocation
+                lastLoction.addOnSuccessListener {
+                    val latitude = it.latitude
+                    val longitude = it.longitude
+                    Log.d("tag", "location : ${latitude + longitude}")
+
+                    val address = geocoder.getFromLocation(latitude, longitude, 1)
+                    binding!!.edittextstockAddress.setText(address[0].getAddressLine(0))
+                    binding!!.edittextstockPincode.setText(address[0].postalCode)
+                    addDetailsViewModel?.let {
+                        it.fetchStateData(address[0].adminArea)!!.observe(this, Observer { data->
+                            it.lststockdata.value = data
+
+                        })
+
+                        it.fetchCityData(address[0].locality)!!.observe(this, Observer { data->
+                            it.lststockcitydata.value = data
+                        })
+                    }
+                }
+                lastLoction.addOnFailureListener {
+                    Log.d("tag", "Failed to load location")
+                }
+            } catch (e: Exception) {
+                val msg = e.message
+            }
+        } else {
+            Toast.makeText(this, "Turn on Location", Toast.LENGTH_SHORT).show()
+            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+            startActivity(intent)
+        }
+    }
+
+    fun handlePermanentDeniedPermission() {
+        AlertDialog.Builder(this@StockistActivity)
+            .setMessage(
+                "It looks that you have turned off " +
+                        "permissions required for these features. It can be enabled under " +
+                        "applications settings"
+            )
+            .setPositiveButton("GO TO SETTINGS", DialogInterface.OnClickListener { dialog, i ->
+                openSettings()
+                dialog.dismiss()
+            })
+            .setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, i ->
+                dialog.dismiss()
+            })
+            .show()
+    }
+
+    fun openSettings() {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+        val uri = Uri.fromParts("package",packageName, null)
+        intent.data = uri
+        startActivity(intent)
+    }
     private fun AddDetailsValidation() {
         addDetailsViewModel?.let {
             if (it.ValidateName(it.strstockname.value.toString())) {

@@ -11,11 +11,15 @@ interface ApiInterfaceNew {
 
     @FormUrlEncoded
     @POST("reporting.php")
-    suspend fun GetHospitalSummaryData(@Field("function_name") function_name: String): Response<SummaryModel>
+    suspend fun GetHospitalSummaryData(@Field("function_name") function_name: String,
+                                       @Field("EmployeeID") employeeID: String): Response<SummaryModel>
 
     @FormUrlEncoded
     @POST("reporting.php")
-    suspend fun GetHospitalDetailsData(@Field("function_name") function_name: String): Response<HospitalDetailsModel>
+    suspend fun GetHospitalDetailsData(
+        @Field("function_name") function_name: String,
+        @Field("EmployeeID") employeeID: String
+    ): Response<HospitalDetailsModel>
 
     @FormUrlEncoded
     @POST("reporting.php")

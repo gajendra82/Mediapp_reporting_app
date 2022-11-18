@@ -4,8 +4,8 @@ import android.content.Context
 import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
+import com.globalspace.miljonsales.interface_.di.AppPreference
 import com.globalspace.miljonsales.local_db.database.AppDatabase
-import com.globalspace.miljonsales.local_db.entity.FetchHospitalSummmary
 import com.globalspace.miljonsales.retrofit.ApiInterfaceNew
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,6 +16,7 @@ import javax.inject.Inject
 class AddDetailsDashboardRepository @Inject constructor(
     private val apiInterfaceNew: ApiInterfaceNew,
     private val context: Context,
+    private val appPreference: AppPreference,
     private val db: AppDatabase
 ) {
 
@@ -26,7 +27,8 @@ class AddDetailsDashboardRepository @Inject constructor(
     suspend fun InsertHospitalSummmary(progressBarDashboard: ProgressBar) {
         CoroutineScope(Dispatchers.IO).async {
             try {
-                val result = apiInterfaceNew.GetHospitalSummaryData("GetHospitalSummeryData")
+                Log.i("tag", "summary user ID  ${appPreference.getUserId()!!}")
+                val result = apiInterfaceNew.GetHospitalSummaryData("GetHospitalSummeryData",appPreference.getUserId()!!)
                 Log.i("tag", "summary data  ${result.body().toString()}")
                 withContext(Dispatchers.Main) {
                     if (result.isSuccessful) {
@@ -54,7 +56,8 @@ class AddDetailsDashboardRepository @Inject constructor(
     suspend fun InsertHospitalDetails(progressBarDashboard: ProgressBar) {
         CoroutineScope(Dispatchers.IO).async {
             try {
-                val result = apiInterfaceNew.GetHospitalDetailsData("GetAllHospitalDetails")
+                Log.i("tag", "summary user ID  ${appPreference.getUserId()!!}")
+                val result = apiInterfaceNew.GetHospitalDetailsData("GetAllHospitalDetails",appPreference.getUserId()!!)
                 Log.i("tag", "hospital details data  ${result.body().toString()}")
                 withContext(Dispatchers.Main) {
                     if (result.isSuccessful) {

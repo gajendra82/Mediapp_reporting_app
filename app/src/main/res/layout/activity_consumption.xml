@@ -173,6 +173,7 @@
                     android:layout_height="match_parent"
                     android:inputType="number"
                     android:lines="1"
+                    android:maxLength="7"
                     android:text="@={consumption_data.strquantity}" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -196,6 +197,7 @@
                     android:layout_height="match_parent"
                     android:inputType="number"
                     android:lines="1"
+                    android:maxLength="8"
                     android:text="@={consumption_data.strrate}" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -219,6 +221,7 @@
                     android:layout_height="match_parent"
                     android:inputType="number"
                     android:lines="1"
+                    android:maxLength="8"
                     android:text="@={consumption_data.strmrp}" />
             </com.google.android.material.textfield.TextInputLayout>
 

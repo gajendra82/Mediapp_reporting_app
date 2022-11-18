@@ -15,6 +15,12 @@ interface DaoDB {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertList(geolist: List<FetchGeography>)
 
+    @Query("SELECT * From CITY_MASTER WHERE UPPER(STATE_NAME)= UPPER(:state) GROUP BY STATE_CODE")
+    fun getState(state : String): LiveData<FetchGeography>
+
+    @Query("SELECT * From CITY_MASTER WHERE UPPER(CITY_NAME)= UPPER(:city)")
+    fun getCity(city : String): LiveData<FetchGeography>
+
     @Query("SELECT * From CITY_MASTER GROUP BY STATE_CODE")
     fun getAllState(): LiveData<List<FetchGeography>>
 

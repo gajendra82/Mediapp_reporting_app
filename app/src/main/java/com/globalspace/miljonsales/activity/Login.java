@@ -10,6 +10,9 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
+
+import com.globalspace.miljonsales.MyApplication;
+import com.globalspace.miljonsales.interface_.di.AppPreference;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -44,6 +47,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.inject.Inject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -69,7 +74,6 @@ public class Login extends Activity {
     private ProgressDialog progress;
     private ApiInterface apiInterface;
     private int mDay, mMonth, mYear;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,7 +135,6 @@ public class Login extends Activity {
             e.printStackTrace();
         }
         //endregion
-
         username_et = (EditText) findViewById(R.id.et_input_username);
         password_et = (EditText) findViewById(R.id.et_input_password);
         signIn = (Button) findViewById(R.id.btn_login);

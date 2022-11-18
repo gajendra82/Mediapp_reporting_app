@@ -52,7 +52,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tvstrength"
             app:layout_constraintTop_toBottomOf="@+id/tvbrand" />
-
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/flexboxLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvstrengthvalue"
+            app:flexWrap="wrap"
+            app:alignContent="flex_start">
         <TextView
             android:id="@+id/tvqty"
             android:layout_width="wrap_content"
@@ -60,19 +69,15 @@
             android:layout_marginTop="8dp"
             android:text="Qty : "
             android:textSize="16dp"
-            android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvstrengthvalue" />
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/tvqtyvalue"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/tvmrp"
-            app:layout_constraintStart_toEndOf="@+id/tvqty"
-            app:layout_constraintTop_toBottomOf="@+id/tvstrengthvalue" />
+            android:layout_marginTop="8dp" />
 
         <TextView
             android:id="@+id/tvmrp"
@@ -81,20 +86,15 @@
             android:layout_marginTop="8dp"
             android:text="Mrp : "
             android:textSize="16dp"
-            android:textColor="@color/black"
-            app:layout_constraintEnd_toStartOf="@+id/tvmrpvalue"
-            app:layout_constraintStart_toEndOf="@+id/tvqtyvalue"
-            app:layout_constraintTop_toBottomOf="@+id/tvstrengthvalue" />
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/tvmrpvalue"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
+            android:layout_marginEnd="12dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/tvrate"
-            app:layout_constraintStart_toEndOf="@+id/tvmrp"
-            app:layout_constraintTop_toBottomOf="@+id/tvstrengthvalue" />
+            android:layout_marginTop="8dp" />
 
         <TextView
             android:id="@+id/tvrate"
@@ -103,20 +103,16 @@
             android:layout_marginTop="8dp"
             android:text="Rate : "
             android:textSize="16dp"
-            android:textColor="@color/black"
-           app:layout_constraintEnd_toStartOf="@+id/tvratevalue"
-            app:layout_constraintStart_toEndOf="@+id/tvmrpvalue"
-            app:layout_constraintTop_toBottomOf="@+id/tvstrengthvalue" />
+            android:textColor="@color/black"/>
 
         <TextView
             android:id="@+id/tvratevalue"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
+            android:layout_marginEnd="12dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tvrate"
-            app:layout_constraintTop_toBottomOf="@+id/tvstrengthvalue" />
+            android:layout_marginTop="8dp" />
+        </com.google.android.flexbox.FlexboxLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

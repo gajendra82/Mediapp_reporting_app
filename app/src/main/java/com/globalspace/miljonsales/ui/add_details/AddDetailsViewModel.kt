@@ -6,13 +6,16 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import android.widget.ProgressBar
 import androidx.activity.result.ActivityResultLauncher
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.globalspace.miljonsales.R
+import com.globalspace.miljonsales.interface_.di.AppPreference
 import com.globalspace.miljonsales.interface_.di.GrantPermission
 import com.globalspace.miljonsales.local_db.database.AppDatabase
 import com.globalspace.miljonsales.local_db.entity.FetchGeography
@@ -31,6 +34,7 @@ class AddDetailsViewModel @Inject constructor(
     private val context: Context,
     private val repository: AddDetailsRepository,
     private val db: AppDatabase,
+    private val appPreference: AppPreference,
     private val permission: GrantPermission
 ) : ViewModel() {
 
@@ -60,6 +64,8 @@ class AddDetailsViewModel @Inject constructor(
     var CurrentFlag: String = "AddDetails"
     val checkpermission: LiveData<Boolean>
         get() = repository.flag_checkpermission
+    val checklocationpermission: LiveData<Boolean>
+        get() = repository.flag_checklocationpermission
     private lateinit var sPref: SharedPreferences
 
     var lst_strmolecule = ArrayList<String>()
@@ -410,6 +416,13 @@ class AddDetailsViewModel @Inject constructor(
     internal fun fetchStateData(): LiveData<List<FetchGeography>>? {
         return repository.FetchState()
     }
+    fun fetchStateData(state : String): LiveData<FetchGeography>? {
+        return repository.FetchState(state)
+    }
+
+    fun fetchCityData(city : String): LiveData<FetchGeography>? {
+        return repository.FetchCity(city)
+    }
 
     internal fun fetchStateCityData(statecode: Int): LiveData<List<FetchGeography>>? {
         return repository.FetchStateCity(statecode)
@@ -447,6 +460,14 @@ class AddDetailsViewModel @Inject constructor(
 
     fun callgallerypermission(ctx: Context, getGalleryImage: ActivityResultLauncher<Intent>) {
         permission.validateGalleryPermission(ctx,getGalleryImage, repository)
+    }
+
+    fun calllocationpermission(
+        ctx: Context,
+        activity: FragmentActivity,
+        requestPermissionLauncher: ActivityResultLauncher<String>
+    ) {
+        permission.validateLocationPermission(ctx,activity,requestPermissionLauncher, repository)
     }
 
     fun fetchStrengthData(): ArrayList<FetchMolecule> {
@@ -675,9 +696,7 @@ class AddDetailsViewModel @Inject constructor(
             val all_data = JsonObject()
             all_data.addProperty("function_name", "SetHospitalAllData")
             all_data.addProperty(
-                "username",
-                sPref!!.getString(context.getResources().getString(R.string.employee_id), "")
-                    .toString()
+                "username",appPreference.getUserId()
             )
             all_data.add("hospitaldetails", obj_data)
             all_data.add("hospitalfacility", arrayfacility)
@@ -718,14 +737,12 @@ class AddDetailsViewModel @Inject constructor(
                     try {
                         viewModelScope.async {
                             repository.SubmitRCPAImages(
-                                sPref!!.getString(
-                                    context.getResources().getString(R.string.employee_id),
-                                    ""
-                                )
-                                    .toString(), path, text,flag, addDetailsProgressbar
+                                path, text,flag, addDetailsProgressbar
                             )
                         }.await()
                         activity.finish()
+                        activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
                     } catch (exc: Exception) {
                         exc.printStackTrace()
                         /* Toast.makeText(this, exc.getMessage(), Toast.LENGTH_SHORT).show();*/

@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.globalspace.miljonsales.interface_.di.AppPreference
 import com.globalspace.miljonsales.local_db.entity.FetchHospitalSummmary
 import com.globalspace.miljonsales.utils.Internet
 import kotlinx.coroutines.async
@@ -39,11 +40,9 @@ class AddDetailsDashboardViewModel @Inject constructor(
     }
 
     internal fun fetchHospSummaryData(): LiveData<List<FetchHospitalSummmary>>? {
-        Log.i("tag", "viewmodel")
         return addDetailsRepository.FetchHospitalSummary()
     }
     internal fun fetchHospDetailsData(): LiveData<List<DashboardData>>? {
-        Log.i("tag", "viewmodel")
         return addDetailsRepository.FetchAllHospital()
     }
 }

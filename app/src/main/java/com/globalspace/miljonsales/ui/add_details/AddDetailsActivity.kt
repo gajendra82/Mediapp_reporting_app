@@ -2,6 +2,7 @@ package com.globalspace.miljonsales.ui.add_details
 
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -286,6 +287,9 @@ class AddDetailsActivity : AppCompatActivity() {
             if (it.ValidateGstNo(it.strgstno.value.toString())) {
                 if (it.ValidatePanNo(it.strpanno.value.toString())) {
                     binding!!.addDetailsProgressbar.visibility = View.VISIBLE
+                    getWindow().setFlags(
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     addDetailsViewModel.SubmitRCPAData(this, binding!!.addDetailsProgressbar)
                 } else {
                     Toast.makeText(this, "Please Enter Valid Pan Number", Toast.LENGTH_SHORT).show()
@@ -295,6 +299,7 @@ class AddDetailsActivity : AppCompatActivity() {
             }
         }
     }
+
 
     override fun onBackPressed() {
         onBackFragment(addDetailsViewModel.CurrentFlag)

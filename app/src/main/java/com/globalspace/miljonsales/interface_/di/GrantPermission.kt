@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.view.Window
 import androidx.activity.result.ActivityResultLauncher
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import com.globalspace.miljonsales.ui.add_details.AddDetailsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,6 +21,13 @@ interface GrantPermission {
     fun validateGalleryPermission(
         context: Context,
         getGalleryImage: ActivityResultLauncher<Intent>,
+        repository: AddDetailsRepository
+    )
+
+    fun validateLocationPermission(
+        context: Context,
+        activity: FragmentActivity,
+        requestPermissionLauncher: ActivityResultLauncher<String>,
         repository: AddDetailsRepository
     )
 

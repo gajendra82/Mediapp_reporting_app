@@ -86,6 +86,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="textMultiLine"
+                    android:drawablePadding="12dp"
+                    android:drawableEnd="@drawable/ic_my_location"
                     android:text="@={stockist_data.strstockaddress}"
                     android:maxLength="100" />
             </com.google.android.material.textfield.TextInputLayout>
