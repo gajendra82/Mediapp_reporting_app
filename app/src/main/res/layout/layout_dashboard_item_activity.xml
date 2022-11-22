@@ -90,7 +90,7 @@
                             android:textColor="@color/black"
                             android:textSize="16dp"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/tvname" />
+                            app:layout_constraintTop_toBottomOf="@+id/tvnamevalue" />
 
                         <TextView
                             android:id="@+id/tvaddressvalue"
@@ -102,7 +102,7 @@
                             android:textSize="14dp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/tvaddress"
-                            app:layout_constraintTop_toBottomOf="@+id/tvname" />
+                            app:layout_constraintTop_toBottomOf="@+id/tvnamevalue" />
 
                         <TextView
                             android:id="@+id/tvhosp"
