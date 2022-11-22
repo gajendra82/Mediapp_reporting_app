@@ -3,6 +3,8 @@ package com.globalspace.miljonsales.ui.add_details
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.location.Geocoder
+import android.location.Location
 import android.net.Uri
 import android.util.Log
 import android.view.View
@@ -21,14 +23,20 @@ import com.globalspace.miljonsales.local_db.database.AppDatabase
 import com.globalspace.miljonsales.local_db.entity.FetchGeography
 import com.globalspace.miljonsales.local_db.entity.FetchHospital
 import com.globalspace.miljonsales.ui.add_details_dashboard.*
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
 import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import java.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 class AddDetailsViewModel @Inject constructor(
     private val context: Context,
@@ -112,21 +120,24 @@ class AddDetailsViewModel @Inject constructor(
     val lstimagesflag = ArrayList<String>()
     val mutablelstimagesdata = MutableLiveData<List<AddImages>>()
 
+    val lstloc = ArrayList<Double>()
+    var locationdata = MutableLiveData<Location>()
+
     //region addImages
-    fun addImageData(addImages: AddImages){
-        if(lstimagesflag.size > 0){
-            if(!lstimagesflag.contains(addImages.Flag)){
+    fun addImageData(addImages: AddImages) {
+        if (lstimagesflag.size > 0) {
+            if (!lstimagesflag.contains(addImages.Flag)) {
                 lstimagesflag.add(addImages.Flag)
                 lstimagesdata.add(addImages)
-            }else{
+            } else {
                 val pos = lstimagesflag.indexOf(addImages.Flag)
                 lstimagesflag.remove(lstimagesflag[pos])
                 lstimagesdata.remove(lstimagesdata[pos])
 
-                lstimagesflag.add(pos,addImages.Flag)
-                lstimagesdata.add(pos,addImages)
+                lstimagesflag.add(pos, addImages.Flag)
+                lstimagesdata.add(pos, addImages)
             }
-        }else{
+        } else {
             lstimagesflag.add(addImages.Flag)
             lstimagesdata.add(addImages)
         }
@@ -209,9 +220,9 @@ class AddDetailsViewModel @Inject constructor(
         }
     }
 
-    fun ValidatePincode(text: String) : Boolean {
+    fun ValidatePincode(text: String): Boolean {
         if (text.length < 6) {
-           return false
+            return false
         } else if (text.length == 0) {
             return false
         } else {
@@ -289,7 +300,7 @@ class AddDetailsViewModel @Inject constructor(
         }
     }
 
-    fun ValidatePanNo(text: String, textinp_cn: TextInputLayout){
+    fun ValidatePanNo(text: String, textinp_cn: TextInputLayout) {
         //It should be ten characters long.
         //The first five characters should be any upper case alphabets.
         //The next four-characters should be any number from 0 to 9.
@@ -298,15 +309,14 @@ class AddDetailsViewModel @Inject constructor(
         val regex = "[A-Z]{5}[0-9]{4}[A-Z]{1}"
         val pattern: Pattern = Pattern.compile(regex)
         val matcher: Matcher = pattern.matcher(text)
-        if (matcher.matches() || text.length == 0 || text == null || text.equals("null"))
-        {
+        if (matcher.matches() || text.length == 0 || text == null || text.equals("null")) {
             textinp_cn.error = null
-        }else{
+        } else {
             textinp_cn.error = "Please Enter Valid PAN No"
         }
     }
 
-    fun ValidateGstNo(text: String, textinp_cn: TextInputLayout){
+    fun ValidateGstNo(text: String, textinp_cn: TextInputLayout) {
         //It should be 15 characters long.
         //The first 2 characters should be a number.
         //The next 10 characters should be the PAN number of the taxpayer.
@@ -318,25 +328,24 @@ class AddDetailsViewModel @Inject constructor(
                 + "Z[0-9A-Z]{1}$")
         val pattern: Pattern = Pattern.compile(regex)
         val matcher: Matcher = pattern.matcher(text)
-        if (matcher.matches() || text.length == 0 || text.equals("null"))
-        {
+        if (matcher.matches() || text.length == 0 || text.equals("null")) {
             textinp_cn.error = null
-        }else{
+        } else {
             textinp_cn.error = "Please Enter Valid GST No"
         }
 
     }
 
-    fun ValidateEmailAddress(text: String, textinp_cn: TextInputLayout){
+    fun ValidateEmailAddress(text: String, textinp_cn: TextInputLayout) {
         val EMAIL_REGEX = "^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})";
 
-        if(EMAIL_REGEX.toRegex().matches(text)){
+        if (EMAIL_REGEX.toRegex().matches(text)) {
             textinp_cn.error = null
-        }else
+        } else
             textinp_cn.error = "Please Enter Valid Email ID"
     }
 
-    fun ValidateGstNo(text: String) : Boolean{
+    fun ValidateGstNo(text: String): Boolean {
         //It should be 15 characters long.
         //The first 2 characters should be a number.
         //The next 10 characters should be the PAN number of the taxpayer.
@@ -348,16 +357,15 @@ class AddDetailsViewModel @Inject constructor(
                 + "Z[0-9A-Z]{1}$")
         val pattern: Pattern = Pattern.compile(regex)
         val matcher: Matcher = pattern.matcher(text)
-        if (matcher.matches() || text.length == 0|| text.equals("null"))
-        {
+        if (matcher.matches() || text.length == 0 || text.equals("null")) {
             return true
-        }else{
-          return false
+        } else {
+            return false
         }
 
     }
 
-    fun ValidatePanNo(text: String) : Boolean{
+    fun ValidatePanNo(text: String): Boolean {
         //It should be ten characters long.
         //The first five characters should be any upper case alphabets.
         //The next four-characters should be any number from 0 to 9.
@@ -366,23 +374,21 @@ class AddDetailsViewModel @Inject constructor(
         val regex = "[A-Z]{5}[0-9]{4}[A-Z]{1}"
         val pattern: Pattern = Pattern.compile(regex)
         val matcher: Matcher = pattern.matcher(text)
-        if (matcher.matches() || text.length == 0 || text == null || text.equals("null"))
-        {
+        if (matcher.matches() || text.length == 0 || text == null || text.equals("null")) {
             return true
-        }else{
+        } else {
             return false
         }
     }
 
-    fun ValidateEmailAddress(text: String) : Boolean{
+    fun ValidateEmailAddress(text: String): Boolean {
         val EMAIL_REGEX = "^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})";
 
-        if(EMAIL_REGEX.toRegex().matches(text)){
+        if (EMAIL_REGEX.toRegex().matches(text)) {
             return true
-        }else
-           return false
+        } else
+            return false
     }
-
 
 
     fun ValidateCompetitorBrand(): Boolean {
@@ -416,11 +422,12 @@ class AddDetailsViewModel @Inject constructor(
     internal fun fetchStateData(): LiveData<List<FetchGeography>>? {
         return repository.FetchState()
     }
-    fun fetchStateData(state : String): LiveData<FetchGeography>? {
+
+    fun fetchStateData(state: String): LiveData<FetchGeography>? {
         return repository.FetchState(state)
     }
 
-    fun fetchCityData(city : String): LiveData<FetchGeography>? {
+    fun fetchCityData(city: String): LiveData<FetchGeography>? {
         return repository.FetchCity(city)
     }
 
@@ -444,13 +451,16 @@ class AddDetailsViewModel @Inject constructor(
     internal fun fetchMoleculeData(): LiveData<List<FetchMolecule>>? {
         return repository.FetchConsumption()
     }
-    internal fun fetchStrengthData(molecule : List<String>): LiveData<List<FetchMolecule>>? {
+
+    internal fun fetchStrengthData(molecule: List<String>): LiveData<List<FetchMolecule>>? {
         return repository.FetchStrength(molecule)
     }
-    internal fun fetchAllBrandData(strength : String): LiveData<List<FetchMolecule>>? {
+
+    internal fun fetchAllBrandData(strength: String): LiveData<List<FetchMolecule>>? {
         return repository.FetchBrand(strength)
     }
-    internal fun fetchAllCompetitorBrandData(strength : String): LiveData<List<FetchMolecule>>? {
+
+    internal fun fetchAllCompetitorBrandData(strength: String): LiveData<List<FetchMolecule>>? {
         return repository.FetchCompetitorBrand(strength)
     }
 
@@ -459,7 +469,7 @@ class AddDetailsViewModel @Inject constructor(
     }
 
     fun callgallerypermission(ctx: Context, getGalleryImage: ActivityResultLauncher<Intent>) {
-        permission.validateGalleryPermission(ctx,getGalleryImage, repository)
+        permission.validateGalleryPermission(ctx, getGalleryImage, repository)
     }
 
     fun calllocationpermission(
@@ -467,7 +477,7 @@ class AddDetailsViewModel @Inject constructor(
         activity: FragmentActivity,
         requestPermissionLauncher: ActivityResultLauncher<String>
     ) {
-        permission.validateLocationPermission(ctx,activity,requestPermissionLauncher, repository)
+        permission.validateLocationPermission(ctx, activity, requestPermissionLauncher, repository)
     }
 
     fun fetchStrengthData(): ArrayList<FetchMolecule> {
@@ -696,7 +706,7 @@ class AddDetailsViewModel @Inject constructor(
             val all_data = JsonObject()
             all_data.addProperty("function_name", "SetHospitalAllData")
             all_data.addProperty(
-                "username",appPreference.getUserId()
+                "username", appPreference.getUserId()
             )
             all_data.add("hospitaldetails", obj_data)
             all_data.add("hospitalfacility", arrayfacility)
@@ -717,7 +727,7 @@ class AddDetailsViewModel @Inject constructor(
                     activity, all_data, addDetailsProgressbar
                 )
             }.await()
-            UploadMultiPartImages(addDetailsProgressbar,activity)
+            UploadMultiPartImages(addDetailsProgressbar, activity)
         }
     }
 
@@ -729,7 +739,7 @@ class AddDetailsViewModel @Inject constructor(
                     context.getResources().getString(R.string.app_name), Context.MODE_PRIVATE
                 )
                 for (i in lstimagesdata.indices) {
-                    val flag :String = lstimagesdata[i].Flag
+                    val flag: String = lstimagesdata[i].Flag
                     val path: String = lstimagesdata[i].ImagePath
                     val text: String = lstimagesdata[i].ImageText
 
@@ -737,11 +747,12 @@ class AddDetailsViewModel @Inject constructor(
                     try {
                         viewModelScope.async {
                             repository.SubmitRCPAImages(
-                                path, text,flag, addDetailsProgressbar
+                                path, text, flag, addDetailsProgressbar
                             )
                         }.await()
                         activity.finish()
-                        activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                        activity.getWindow()
+                            .clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
                     } catch (exc: Exception) {
                         exc.printStackTrace()
@@ -750,6 +761,34 @@ class AddDetailsViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 val msg = e.message
+            }
+        }
+    }
+
+     val locationRequest = LocationRequest.create().apply {
+         interval = 3000
+         fastestInterval = 3000
+         priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
+         maxWaitTime = 5000
+     }
+
+    var locationCallback: LocationCallback = object : LocationCallback() {
+        override fun onLocationResult(loctionResult: LocationResult) {
+            val locationlist = loctionResult.locations
+            if (locationlist.isNotEmpty()) {
+                val location = locationlist.last()
+                val latitude = location.latitude
+                val longitude = location.longitude
+                Log.d("tag", "location : ${latitude + longitude}")
+                try {
+                    /*lstloc.add(0, latitude)
+                    lstloc.add(1, longitude)*/
+                    locationdata.value = location
+                } catch (e: Exception) {
+                    Log.d("tag", "location : ${e.message}")
+                }
+            }else{
+
             }
         }
     }

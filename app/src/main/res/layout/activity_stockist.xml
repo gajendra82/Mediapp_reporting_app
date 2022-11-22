@@ -27,213 +27,234 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/border_file"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"
             app:layout_constraintTop_toBottomOf="@+id/toolbar_stockist">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textinpstock_name"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:hint="@string/hint_name"
-                app:boxStrokeColor="@color/colorPrimary"
-                app:errorEnabled="true"
-                app:errorIconDrawable="@drawable/ic_baseline_error_24"
-                app:hintTextColor="@color/colorPrimary"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/border_file"
+                android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@+id/toolbar_stockist">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edittextstock_name"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textinpstock_name"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:inputType="text"
-                    android:text="@={stockist_data.strstockname}"
-                    android:lines="1" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:hint="@string/hint_name"
+                    app:boxStrokeColor="@color/colorPrimary"
+                    app:errorEnabled="true"
+                    app:errorIconDrawable="@drawable/ic_baseline_error_24"
+                    app:hintTextColor="@color/colorPrimary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textinpstock_address"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:hint="@string/hint_address"
-                app:boxStrokeColor="@color/colorPrimary"
-                app:counterEnabled="true"
-                app:counterMaxLength="100"
-                app:errorEnabled="true"
-                app:errorIconDrawable="@drawable/ic_baseline_error_24"
-                app:hintTextColor="@color/colorPrimary"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textinpstock_name">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittextstock_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:inputType="text"
+                        android:lines="1"
+                        android:text="@={stockist_data.strstockname}" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edittextstock_address"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textinpstock_address"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:inputType="textMultiLine"
-                    android:drawablePadding="12dp"
-                    android:drawableEnd="@drawable/ic_my_location"
-                    android:text="@={stockist_data.strstockaddress}"
-                    android:maxLength="100" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:hint="@string/hint_address"
+                    app:boxStrokeColor="@color/colorPrimary"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="5000"
+                    app:errorEnabled="true"
+                    app:errorIconDrawable="@drawable/ic_baseline_error_24"
+                    app:hintTextColor="@color/colorPrimary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textinpstock_name">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textinpstock_state"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:hint="@string/hint_state"
-                app:boxStrokeColor="@color/colorPrimary"
-                app:endIconDrawable="@drawable/ic_arrow_drop_down"
-                app:endIconMode="custom"
-                app:errorEnabled="true"
-                app:errorIconDrawable="@drawable/ic_baseline_error_24"
-                app:hintTextColor="@color/colorPrimary"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textinpstock_address">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittextstock_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:drawableEnd="@drawable/ic_my_location"
+                        android:drawablePadding="12dp"
+                        android:inputType="textMultiLine"
+                        android:maxLength="5000"
+                        android:scrollbars="vertical"
+                        android:text="@={stockist_data.strstockaddress}" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edittextstock_state"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textinpstock_state"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:focusable="false"
-                    android:inputType="none" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:hint="@string/hint_state"
+                    app:boxStrokeColor="@color/colorPrimary"
+                    app:endIconDrawable="@drawable/ic_arrow_drop_down"
+                    app:endIconMode="custom"
+                    app:errorEnabled="true"
+                    app:errorIconDrawable="@drawable/ic_baseline_error_24"
+                    app:hintTextColor="@color/colorPrimary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textinpstock_address">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textinpstock_city"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:hint="@string/hint_city"
-                app:boxStrokeColor="@color/colorPrimary"
-                app:endIconDrawable="@drawable/ic_arrow_drop_down"
-                app:endIconMode="custom"
-                app:errorEnabled="true"
-                app:errorIconDrawable="@drawable/ic_baseline_error_24"
-                app:hintTextColor="@color/colorPrimary"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textinpstock_state">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittextstock_state"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:focusable="false"
+                        android:inputType="none" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edittextstock_city"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textinpstock_city"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:focusable="false"
-                    android:inputType="none" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:hint="@string/hint_city"
+                    app:boxStrokeColor="@color/colorPrimary"
+                    app:endIconDrawable="@drawable/ic_arrow_drop_down"
+                    app:endIconMode="custom"
+                    app:errorEnabled="true"
+                    app:errorIconDrawable="@drawable/ic_baseline_error_24"
+                    app:hintTextColor="@color/colorPrimary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textinpstock_state">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textinpcontact_name"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:hint="@string/hint_contactname"
-                app:boxStrokeColor="@color/colorPrimary"
-                app:errorEnabled="true"
-                app:errorIconDrawable="@drawable/ic_baseline_error_24"
-                app:hintTextColor="@color/colorPrimary"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textinpstock_city">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittextstock_city"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:focusable="false"
+                        android:inputType="none" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edittextcontact_name"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textinpcontact_name"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:inputType="text"
-                    android:text="@={stockist_data.strstockpersonalname}"
-                    android:lines="1" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:hint="@string/hint_contactname"
+                    app:boxStrokeColor="@color/colorPrimary"
+                    app:errorEnabled="true"
+                    app:errorIconDrawable="@drawable/ic_baseline_error_24"
+                    app:hintTextColor="@color/colorPrimary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textinpstock_city">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textinp_contactnum"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:hint="@string/hint_contactnum"
-                app:boxStrokeColor="@color/colorPrimary"
-                app:counterEnabled="true"
-                app:counterMaxLength="10"
-                app:errorEnabled="true"
-                app:errorIconDrawable="@drawable/ic_baseline_error_24"
-                app:hintTextColor="@color/colorPrimary"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textinpcontact_name">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittextcontact_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:inputType="text"
+                        android:lines="1"
+                        android:text="@={stockist_data.strstockpersonalname}" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edittext_contactnum"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textinp_contactnum"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:inputType="number"
-                    android:text="@={stockist_data.strstockcontactnum}"
-                    android:maxLength="10" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:hint="@string/hint_contactnum"
+                    app:boxStrokeColor="@color/colorPrimary"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="10"
+                    app:errorEnabled="true"
+                    app:errorIconDrawable="@drawable/ic_baseline_error_24"
+                    app:hintTextColor="@color/colorPrimary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textinpcontact_name">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textinpstock_pincode"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:hint="@string/hint_pincode"
-                app:boxStrokeColor="@color/colorPrimary"
-                app:counterEnabled="true"
-                app:counterMaxLength="6"
-                app:errorEnabled="true"
-                app:errorIconDrawable="@drawable/ic_baseline_error_24"
-                app:hintTextColor="@color/colorPrimary"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textinp_contactnum">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittext_contactnum"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:text="@={stockist_data.strstockcontactnum}" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edittextstock_pincode"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textinpstock_pincode"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:inputType="number"
-                    android:text="@={stockist_data.strstockpincode}"
-                    android:maxLength="6" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:hint="@string/hint_pincode"
+                    app:boxStrokeColor="@color/colorPrimary"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="6"
+                    app:errorEnabled="true"
+                    app:errorIconDrawable="@drawable/ic_baseline_error_24"
+                    app:hintTextColor="@color/colorPrimary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textinp_contactnum">
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_add"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_margin="10dp"
-                android:background="@drawable/roundedcorner_button"
-                android:padding="12dp"
-                android:text="Add"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textinpstock_pincode"
-                android:textColor="#fff"
-                android:textSize="16dp" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittextstock_pincode"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:inputType="number"
+                        android:maxLength="6"
+                        android:text="@={stockist_data.strstockpincode}" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_add"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/roundedcorner_button"
+                    android:padding="12dp"
+                    android:text="Add"
+                    android:textColor="#fff"
+                    android:textSize="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textinpstock_pincode" />
+
+                <ProgressBar
+                    android:id="@+id/stockaddress_progressbar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/textinpstock_address"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textinpstock_name" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

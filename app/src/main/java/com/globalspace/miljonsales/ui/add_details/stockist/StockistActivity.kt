@@ -1,20 +1,24 @@
 package com.globalspace.miljonsales.ui.add_details.stockist
 
 import android.Manifest
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.Looper
 import android.provider.Settings
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -30,8 +34,11 @@ import com.globalspace.miljonsales.ui.add_details.AddDetailsViewModel
 import com.globalspace.miljonsales.ui.add_details.consumptions.ConsumptionFragment
 import com.globalspace.miljonsales.utils.WindowBar
 import com.globalspace.miljonsales.viewmodelfactory.MainViewModelFactoryNew
+import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.LocationSettingsRequest
+import com.google.android.gms.location.LocationSettingsStatusCodes
 import java.util.*
 import javax.inject.Inject
 
@@ -65,6 +72,27 @@ class StockistActivity : AppCompatActivity() {
         geocoder = Geocoder(this, Locale.getDefault())
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(this)
+
+        addDetailsViewModel!!.locationdata?.observe(this, Observer {
+            if(it != null) {
+                binding!!.stockaddressProgressbar.visibility = View.GONE
+                fusedLocationProviderClient.removeLocationUpdates(addDetailsViewModel!!.locationCallback)
+                val address = geocoder.getFromLocation(it.latitude, it.longitude, 1)
+                binding!!.edittextstockAddress.setText(address[0].getAddressLine(0))
+                binding!!.edittextstockPincode.setText(address[0].postalCode)
+                addDetailsViewModel?.let {
+                    it.fetchStateData(address[0].adminArea)!!.observe(this, Observer { data->
+                        it.lststockdata.value = data
+
+                    })
+
+                    it.fetchCityData(address[0].locality)!!.observe(this, Observer { data->
+                        it.lststockcitydata.value = data
+                    })
+                }
+            }
+        })
+
         binding?.let{
             it.edittextstockState.setOnClickListener {
                 Log.i("tag", "clicked")
@@ -161,7 +189,7 @@ class StockistActivity : AppCompatActivity() {
     }
 
     private fun getCurrentLocation() {
-        if (isLocationEnabled()) {
+     //   if (isLocationEnabled()) {
             try {
                 if (ActivityCompat.checkSelfPermission(
                        this,
@@ -171,41 +199,82 @@ class StockistActivity : AppCompatActivity() {
                         Manifest.permission.ACCESS_COARSE_LOCATION
                     ) != PackageManager.PERMISSION_GRANTED
                 ) {
+                    return
 
                     //requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-                }
-                val lastLoction = fusedLocationProviderClient.lastLocation
-                lastLoction.addOnSuccessListener {
-                    val latitude = it.latitude
-                    val longitude = it.longitude
-                    Log.d("tag", "location : ${latitude + longitude}")
+                }else {
 
-                    val address = geocoder.getFromLocation(latitude, longitude, 1)
-                    binding!!.edittextstockAddress.setText(address[0].getAddressLine(0))
-                    binding!!.edittextstockPincode.setText(address[0].postalCode)
-                    addDetailsViewModel?.let {
-                        it.fetchStateData(address[0].adminArea)!!.observe(this, Observer { data->
-                            it.lststockdata.value = data
-
-                        })
-
-                        it.fetchCityData(address[0].locality)!!.observe(this, Observer { data->
-                            it.lststockcitydata.value = data
-                        })
+                    val builder = LocationSettingsRequest.Builder()
+                        .addLocationRequest(addDetailsViewModel!!.locationRequest)
+                    val task = LocationServices.getSettingsClient(this)
+                        .checkLocationSettings(builder.build())
+                    task.addOnSuccessListener { response ->
+                        val states = response.locationSettingsStates
+                        if (states!!.isLocationPresent) {
+                            binding!!.stockaddressProgressbar.visibility = View.VISIBLE
+                            fusedLocationProviderClient?.requestLocationUpdates(
+                                addDetailsViewModel!!.locationRequest,
+                                addDetailsViewModel!!.locationCallback,
+                                Looper.getMainLooper()
+                            )
+                        }
+                    }.addOnFailureListener { e ->
+                        val statuscode = (e as ResolvableApiException).statusCode
+                        if (statuscode == LocationSettingsStatusCodes.RESOLUTION_REQUIRED) {
+                            try {
+                                val intentSenderRequest =
+                                    IntentSenderRequest.Builder(e.resolution).build()
+                                resultLauncherGPS_stockist.launch(intentSenderRequest)
+                            } catch (sendEx: IntentSender.SendIntentException) {
+                            }
+                        }
                     }
+                }
+              /*  val lastLoction = fusedLocationProviderClient.lastLocation
+                lastLoction.addOnSuccessListener {
+                    if(it!= null){
+                        val latitude = it.latitude
+                        val longitude = it.longitude
+                        Log.d("tag", "location : ${latitude + longitude}")
+
+                        val address = geocoder.getFromLocation(latitude, longitude, 1)
+                        binding!!.edittextstockAddress.setText(address[0].getAddressLine(0))
+                        binding!!.edittextstockPincode.setText(address[0].postalCode)
+                        addDetailsViewModel?.let {
+                            it.fetchStateData(address[0].adminArea)!!.observe(this, Observer { data->
+                                it.lststockdata.value = data
+
+                            })
+
+                            it.fetchCityData(address[0].locality)!!.observe(this, Observer { data->
+                                it.lststockcitydata.value = data
+                            })
+                        }
+                    }else{
+                        Toast.makeText(this@StockistActivity,"Failed to load location",Toast.LENGTH_SHORT).show()
+                    }
+
                 }
                 lastLoction.addOnFailureListener {
                     Log.d("tag", "Failed to load location")
-                }
+                }*/
             } catch (e: Exception) {
                 val msg = e.message
             }
-        } else {
+       /* } else {
             Toast.makeText(this, "Turn on Location", Toast.LENGTH_SHORT).show()
             val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
             startActivity(intent)
-        }
+        }*/
     }
+
+    val resultLauncherGPS_stockist =
+        registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data = result.data?.data
+                getCurrentLocation()
+            }
+        }
 
     fun handlePermanentDeniedPermission() {
         AlertDialog.Builder(this@StockistActivity)

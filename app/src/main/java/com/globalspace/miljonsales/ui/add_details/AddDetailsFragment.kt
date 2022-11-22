@@ -1,20 +1,21 @@
 package com.globalspace.miljonsales.ui.add_details
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.location.Geocoder
-import android.location.Location
-import android.location.LocationManager
+import android.location.*
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.os.Looper
 import android.provider.MediaStore
 import android.provider.Settings
 import android.util.Log
@@ -23,6 +24,7 @@ import android.view.View
 import android.view.View.OnTouchListener
 import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -39,8 +41,9 @@ import com.globalspace.miljonsales.local_db.entity.FetchGeography
 import com.globalspace.miljonsales.ui.URIPathHelper
 import com.globalspace.miljonsales.ui.add_details_dashboard.AddImages
 import com.globalspace.miljonsales.viewmodelfactory.MainViewModelFactoryNew
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.common.api.ResolvableApiException
+import com.google.android.gms.location.*
+import com.google.android.gms.location.LocationRequest
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.TextRecognizer
@@ -62,8 +65,7 @@ import java.util.*
 import javax.inject.Inject
 
 
-class AddDetailsFragment : Fragment(R.layout.fragment_add_details), PermissionListener,
-    MultiplePermissionsListener {
+class AddDetailsFragment : Fragment(R.layout.fragment_add_details) {
 
     private var _binding: FragmentAddDetailsBinding? = null
     private val binding get() = _binding
@@ -77,6 +79,7 @@ class AddDetailsFragment : Fragment(R.layout.fragment_add_details), PermissionLi
     lateinit var mainviewmodelFactory: MainViewModelFactoryNew
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var addDetailsViewModel: AddDetailsViewModel
+    private lateinit var locationCallback: LocationCallback
     internal val dialog = AddDetaillsDialog()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -94,6 +97,25 @@ class AddDetailsFragment : Fragment(R.layout.fragment_add_details), PermissionLi
             geocoder = Geocoder(requireContext(), Locale.getDefault())
             fusedLocationProviderClient =
                 LocationServices.getFusedLocationProviderClient(requireContext())
+
+            addDetailsViewModel.locationdata?.observe(viewLifecycleOwner){
+                if(it != null) {
+                    binding!!.addressProgressbar.visibility = View.GONE
+                    fusedLocationProviderClient.removeLocationUpdates(addDetailsViewModel.locationCallback)
+                    val address = geocoder.getFromLocation(it.latitude, it.longitude, 1)
+                    binding!!.edittextAddress.setText(address[0].getAddressLine(0))
+                    binding!!.edittextPincode.setText(address[0].postalCode)
+                    addDetailsViewModel.fetchStateData(address[0].adminArea)!!
+                        .observe(viewLifecycleOwner) {
+                            addDetailsViewModel.lstdata.value = it
+                        }
+                    addDetailsViewModel.fetchCityData(address[0].locality)!!
+                        .observe(viewLifecycleOwner) {
+                            addDetailsViewModel.lstcitydata.value = it
+                        }
+                }
+            }
+
             addDetailsViewModel.lstdata.observe(viewLifecycleOwner) {
                 binding!!.edittextState.setText(it.STATE_NAME.toString())
             }
@@ -275,7 +297,7 @@ class AddDetailsFragment : Fragment(R.layout.fragment_add_details), PermissionLi
     }
 
     private fun getCurrentLocation() {
-        if (isLocationEnabled()) {
+       /* if (isLocationEnabled()) {*/
             try {
                 if (ActivityCompat.checkSelfPermission(
                         requireActivity(),
@@ -285,41 +307,73 @@ class AddDetailsFragment : Fragment(R.layout.fragment_add_details), PermissionLi
                         Manifest.permission.ACCESS_COARSE_LOCATION
                     ) != PackageManager.PERMISSION_GRANTED
                 ) {
+                    return
+                }else{
 
-                    //requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+                    val builder = LocationSettingsRequest.Builder().addLocationRequest(addDetailsViewModel.locationRequest)
+                    val task = LocationServices.getSettingsClient(requireActivity()).checkLocationSettings(builder.build())
+                    task.addOnSuccessListener{
+                            response->
+                        val states = response.locationSettingsStates
+                        if(states!!.isLocationPresent){
+                            binding!!.addressProgressbar.visibility = View.VISIBLE
+                            fusedLocationProviderClient?.requestLocationUpdates(addDetailsViewModel.locationRequest,addDetailsViewModel.locationCallback,
+                                Looper.getMainLooper())
+                        }
+                    }.addOnFailureListener { e->
+                        val statuscode = (e as ResolvableApiException).statusCode
+                        if(statuscode == LocationSettingsStatusCodes.RESOLUTION_REQUIRED){
+                            try{
+                                val intentSenderRequest = IntentSenderRequest.Builder(e.resolution).build()
+                                resultLauncherGPS.launch(intentSenderRequest)
+                            }catch (sendEx: IntentSender.SendIntentException){}
+                        }
+                    }
+                  /* fusedLocationProviderClient?.requestLocationUpdates(addDetailsViewModel.locationRequest,addDetailsViewModel.locationCallback,
+                   Looper.myLooper()!!)*/
                 }
-                val lastLoction = fusedLocationProviderClient.lastLocation
+               /* val lastLoction = fusedLocationProviderClient.lastLocation
                 lastLoction.addOnSuccessListener {
-                    val latitude = it.latitude
-                    val longitude = it.longitude
-                    Log.d("tag", "location : ${latitude + longitude}")
+                    if(it != null){
+                        val latitude = it.latitude
+                        val longitude = it.longitude
+                        Log.d("tag", "location : ${latitude + longitude}")
 
-                    val address = geocoder.getFromLocation(latitude, longitude, 1)
-                    binding!!.edittextAddress.setText(address[0].getAddressLine(0))
-                    binding!!.edittextPincode.setText(address[0].postalCode)
-                    addDetailsViewModel.fetchStateData(address[0].adminArea)!!
-                        .observe(viewLifecycleOwner) {
-                            addDetailsViewModel.lstdata.value = it
-                        }
-                    addDetailsViewModel.fetchCityData(address[0].locality)!!
-                        .observe(viewLifecycleOwner) {
-                            addDetailsViewModel.lstcitydata.value = it
-                        }
-
+                        val address = geocoder.getFromLocation(latitude, longitude, 1)
+                        binding!!.edittextAddress.setText(address[0].getAddressLine(0))
+                        binding!!.edittextPincode.setText(address[0].postalCode)
+                        addDetailsViewModel.fetchStateData(address[0].adminArea)!!
+                            .observe(viewLifecycleOwner) {
+                                addDetailsViewModel.lstdata.value = it
+                            }
+                        addDetailsViewModel.fetchCityData(address[0].locality)!!
+                            .observe(viewLifecycleOwner) {
+                                addDetailsViewModel.lstcitydata.value = it
+                            }
+                    }else{
+                      Toast.makeText(context,"Failed to load location",Toast.LENGTH_SHORT).show()
+                    }
                 }
                 lastLoction.addOnFailureListener {
                     Log.d("tag", "Failed to load location")
-                }
+                }*/
             } catch (e: Exception) {
                 val msg = e.message
             }
-        } else {
+        /*} else {
             Toast.makeText(requireContext(), "Turn on Location", Toast.LENGTH_SHORT).show()
             val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
             startActivity(intent)
-        }
+        }*/
     }
 
+    val resultLauncherGPS =
+        registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data = result.data?.data
+                getCurrentLocation()
+            }
+        }
     private fun invokeCamera() {
         val file = CreateImageFile(requireContext())
         try {
@@ -342,49 +396,6 @@ class AddDetailsFragment : Fragment(R.layout.fragment_add_details), PermissionLi
         val imageDirectory = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         val tmpfile = File.createTempFile("reporting_${timestamp}", ".jpg", imageDirectory)
         return tmpfile
-    }
-
-    fun ShowPermissionGranted(permissionName: String) {
-        when (permissionName) {
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION -> {
-                getCurrentLocation()
-            }
-
-        }
-    }
-
-    fun ShowPermissionDenied(permissionName: String) {
-        when (permissionName) {
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION -> {
-                Toast.makeText(
-                    context,
-                    "Please Grant Permissions to use the app",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-
-        }
-    }
-
-    fun ShowPermissionRationale(token: PermissionToken) {
-        AlertDialog.Builder(context)
-            .setIcon(android.R.drawable.ic_dialog_alert)
-            .setTitle("We need this permission")
-            .setMessage("Please allow the permission")
-            .setPositiveButton("Allow", DialogInterface.OnClickListener { dialog, i ->
-                token.continuePermissionRequest()
-                dialog.dismiss()
-            })
-            .setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, i ->
-                token.cancelPermissionRequest()
-                dialog.dismiss()
-            })
-            .setOnDismissListener {
-                token.cancelPermissionRequest()
-            }
-            .show()
     }
 
     fun handlePermanentDeniedPermission() {
@@ -415,39 +426,5 @@ class AddDetailsFragment : Fragment(R.layout.fragment_add_details), PermissionLi
         super.onDestroyView()
         _binding = null
     }
-
-    override fun onPermissionGranted(response: PermissionGrantedResponse?) {
-        ShowPermissionGranted(response!!.permissionName)
-    }
-
-    override fun onPermissionDenied(response: PermissionDeniedResponse?) {
-        ShowPermissionDenied(response!!.permissionName)
-    }
-
-    override fun onPermissionRationaleShouldBeShown(
-        permission: PermissionRequest?,
-        token: PermissionToken?
-    ) {
-        ShowPermissionRationale(token!!)
-    }
-
-    override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
-        report?.let {
-            for (response in it.grantedPermissionResponses) {
-                ShowPermissionGranted(response.permissionName)
-            }
-            for (response in it.deniedPermissionResponses) {
-                ShowPermissionDenied(response.permissionName)
-            }
-        }
-    }
-
-    override fun onPermissionRationaleShouldBeShown(
-        permission: MutableList<PermissionRequest>?,
-        token: PermissionToken?
-    ) {
-        ShowPermissionRationale(token!!)
-    }
-
 
 }
