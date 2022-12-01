@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.globalspace.miljonsales.MyApplication
 import com.globalspace.miljonsales.R
+import com.globalspace.miljonsales.activity.Dashboard
 import com.globalspace.miljonsales.databinding.AddDetailsActivityBinding
 import com.globalspace.miljonsales.ui.add_details.comments_observation.CommentsObservationFragment
 import com.globalspace.miljonsales.ui.add_details.competitorbrands.CompetitorBrandFragment
@@ -47,7 +48,9 @@ class AddDetailsActivity : AppCompatActivity() {
         addDetailsViewModel =
             ViewModelProvider(this, mainviewmodelFactory).get(AddDetailsViewModel::class.java)
         binding.dData = addDetailsViewModel
+        addDetailsViewModel.activity_context = this
         setCurrentFragment(AddDetailsFragment())
+        Dashboard.flagdashboard = "submitdata"
         binding.btnNext.setOnClickListener {
             onNextValidation(addDetailsViewModel.CurrentFlag)
         }
@@ -286,6 +289,8 @@ class AddDetailsActivity : AppCompatActivity() {
         addDetailsViewModel?.let {
             if (it.ValidateGstNo(it.strgstno.value.toString())) {
                 if (it.ValidatePanNo(it.strpanno.value.toString())) {
+                    binding!!.btnNext.visibility = View.GONE
+                    addDetailsViewModel.submitbutton = binding.btnNext
                     binding!!.addDetailsProgressbar.visibility = View.VISIBLE
                     getWindow().setFlags(
                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,

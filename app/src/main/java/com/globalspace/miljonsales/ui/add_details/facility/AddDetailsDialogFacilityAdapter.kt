@@ -1,22 +1,26 @@
 package com.globalspace.miljonsales.ui.add_details.facility
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.globalspace.miljonsales.databinding.DialogAdapterBinding
+import com.globalspace.miljonsales.ui.add_details.AddDetailsViewModel
+import com.globalspace.miljonsales.ui.add_details.AlertDialogFragment
 import com.globalspace.miljonsales.ui.add_details_dashboard.FetchFacility
 
 class AddDetailsDialogFacilityAdapter(
+    private val addDetailsViewModel: AddDetailsViewModel,
     private val lstdata: List<FetchFacility>,
     private val listener: onItemFacilityClickListener,
-    private val strflag: String
 ) :
     RecyclerView.Adapter<AddDetailsDialogFacilityAdapter.ViewHolder>(), Filterable {
     var filteredList: MutableList<FetchFacility>? = null
-
+    internal val alertdialog = AlertDialogFragment()
     init {
         filteredList = lstdata.toMutableList()
     }
@@ -39,6 +43,7 @@ class AddDetailsDialogFacilityAdapter(
                     binding.chkItem.isChecked = false
                 else
                     binding.chkItem.isChecked = this.isCheckFlag!!
+
                 binding.chkItem.setOnCheckedChangeListener { compoundButton, b ->
                     if (b) {
                         filteredList!![adapterPosition].isCheckFlag = true
@@ -47,6 +52,10 @@ class AddDetailsDialogFacilityAdapter(
                             filteredList!![adapterPosition],
                             true
                         )
+                        if((addDetailsViewModel.strfacilityOtherdata.value == null || addDetailsViewModel.strfacilityOtherdata.value.equals("")) && filteredList!![adapterPosition].Facility!!.lowercase().equals("others")){
+                            addDetailsViewModel.facilityotherposition = filteredList!![adapterPosition]
+                            addDetailsViewModel.CallAlert("Facility","Enter Other Facility")
+                        }
                     } else {
                         filteredList!![adapterPosition].isCheckFlag = false
                         listener.onItemFacilityClickListener(
@@ -54,6 +63,9 @@ class AddDetailsDialogFacilityAdapter(
                             filteredList!![adapterPosition],
                             false
                         )
+                        if(filteredList!![adapterPosition].Facility!!.lowercase().equals("others")){
+                            addDetailsViewModel.strfacilityOtherdata.value = ""
+                        }
                     }
                 }
             }

@@ -3,14 +3,19 @@ package com.globalspace.miljonsales.ui.add_details
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.location.Geocoder
 import android.location.Location
 import android.net.Uri
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
+import android.view.View.OnTouchListener
 import android.view.WindowManager
+import android.widget.Button
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.BindingAdapter
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -20,23 +25,22 @@ import com.globalspace.miljonsales.R
 import com.globalspace.miljonsales.interface_.di.AppPreference
 import com.globalspace.miljonsales.interface_.di.GrantPermission
 import com.globalspace.miljonsales.local_db.database.AppDatabase
-import com.globalspace.miljonsales.local_db.entity.FetchGeography
-import com.globalspace.miljonsales.local_db.entity.FetchHospital
 import com.globalspace.miljonsales.ui.add_details_dashboard.*
-import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import kotlinx.android.synthetic.main.layout_facility_adapter.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import java.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 import javax.inject.Inject
-import kotlin.collections.ArrayList
+
 
 class AddDetailsViewModel @Inject constructor(
     private val context: Context,
@@ -46,6 +50,7 @@ class AddDetailsViewModel @Inject constructor(
     private val permission: GrantPermission
 ) : ViewModel() {
 
+    lateinit var activity_context: Context
     val lstconsum_strength = MutableLiveData<FetchMolecule?>()
     val lstcompetitorstrength = MutableLiveData<FetchMolecule?>()
     val lstbrand = MutableLiveData<FetchMolecule?>()
@@ -54,7 +59,10 @@ class AddDetailsViewModel @Inject constructor(
     val lststockdata = MutableLiveData<FetchGeography?>()
     val lststockcitydata = MutableLiveData<FetchGeography?>()
     val lstcitydata = MutableLiveData<FetchGeography>()
-    val lsthospdata = MutableLiveData<FetchHospital>()
+    val lsthospdata = MutableLiveData<FetchHospital?>()
+    var strhospOtherdata = MutableLiveData<String?>()
+    var strfacilityOtherdata = MutableLiveData<String?>()
+    var strspecialityOtherdata = MutableLiveData<String?>()
     val lstfacility = ArrayList<FetchFacility>()
     val lstspeciality = ArrayList<FetchSpeciality>()
     val lstmolecule = ArrayList<FetchMolecule>()
@@ -75,9 +83,10 @@ class AddDetailsViewModel @Inject constructor(
     val checklocationpermission: LiveData<Boolean>
         get() = repository.flag_checklocationpermission
     private lateinit var sPref: SharedPreferences
-
+    lateinit var submitbutton: Button
     var lst_strmolecule = ArrayList<String>()
-
+    var facilityotherposition: FetchFacility? = null
+    var specialityotherposition: FetchSpeciality? = null
     var data = ArrayList<Add_Consumption_items>()
     var datapurchase = ArrayList<Add_Purchase_Authority_items>()
     var datastockist = ArrayList<Add_Stockist_items>()
@@ -115,12 +124,12 @@ class AddDetailsViewModel @Inject constructor(
     var strpurch_authorityname = MutableLiveData<String>()
     var strpurch_authoritydesignation = MutableLiveData<String>()
     var strpurch_authoritycontactnumber = MutableLiveData<String>()
+    var checkothers = MutableLiveData<Boolean>()
 
     val lstimagesdata = ArrayList<AddImages>()
     val lstimagesflag = ArrayList<String>()
     val mutablelstimagesdata = MutableLiveData<List<AddImages>>()
 
-    val lstloc = ArrayList<Double>()
     var locationdata = MutableLiveData<Location>()
 
     //region addImages
@@ -155,6 +164,8 @@ class AddDetailsViewModel @Inject constructor(
     fun removeFacility(fetchFacility: FetchFacility) {
         lstfacility.remove(fetchFacility)
         lstfacilitydata.value = lstfacility
+        if (facilityotherposition != null && facilityotherposition!!.equals(fetchFacility))
+            strfacilityOtherdata.value = ""
     }
     //endregion
 
@@ -169,6 +180,8 @@ class AddDetailsViewModel @Inject constructor(
     fun removeSpeciality(fetchSpeciality: FetchSpeciality) {
         lstspeciality.remove(fetchSpeciality)
         lstspecialitydata.value = lstspeciality
+        if (specialityotherposition != null && specialityotherposition!!.equals(fetchSpeciality))
+            strspecialityOtherdata.value = ""
     }
     //endregion
 
@@ -419,33 +432,28 @@ class AddDetailsViewModel @Inject constructor(
         return false
     }
 
-    internal fun fetchStateData(): LiveData<List<FetchGeography>>? {
-        return repository.FetchState()
+    internal suspend fun fetchCityData(
+        progressBar: ProgressBar,
+        state: String
+    ): LiveData<List<FetchGeography>>? {
+        return repository.FetchCity(progressBar, state)
     }
 
-    fun fetchStateData(state: String): LiveData<FetchGeography>? {
-        return repository.FetchState(state)
+    internal suspend fun fetchStateData(progressBar: ProgressBar): LiveData<List<FetchGeography>>? {
+        return repository.FetchState(progressBar)
     }
 
-    fun fetchCityData(city: String): LiveData<FetchGeography>? {
-        return repository.FetchCity(city)
-    }
-
-    internal fun fetchStateCityData(statecode: Int): LiveData<List<FetchGeography>>? {
-        return repository.FetchStateCity(statecode)
-    }
-
-    internal fun fetchHospData(): LiveData<List<FetchHospital>>? {
+    internal suspend fun fetchHospData(progressBar: ProgressBar): LiveData<List<FetchHospital>>? {
         Log.i("tag", "viewmodel")
-        return repository.FetchHospital()
+        return repository.FetchHospital(progressBar)
     }
 
-    internal fun fetchFacilityData(): LiveData<List<FetchFacility>>? {
-        return repository.FetchHospFacility()
+    internal suspend fun fetchFacilityData(progressBar: ProgressBar): LiveData<List<FetchFacility>>? {
+        return repository.FetchHospFacility(progressBar)
     }
 
-    internal fun fetchSpecialityData(): LiveData<List<FetchSpeciality>>? {
-        return repository.FetchSpeciality()
+    internal suspend fun fetchSpecialityData(progressBar: ProgressBar): LiveData<List<FetchSpeciality>>? {
+        return repository.FetchSpeciality(progressBar)
     }
 
     internal fun fetchMoleculeData(): LiveData<List<FetchMolecule>>? {
@@ -600,7 +608,14 @@ class AddDetailsViewModel @Inject constructor(
             obj_data.addProperty("citycode", lstcitydata.value!!.CITY_ID.toString())
             obj_data.addProperty("city", lstcitydata.value!!.CITY_NAME.toString())
             obj_data.addProperty("pincode", strpincode.value.toString())
-            obj_data.addProperty("hospital", lsthospdata.value!!.HospitalType.toString())
+            if (lsthospdata.value!!.HospitalType!!.lowercase().equals("others")) {
+                strhospOtherdata?.let {
+                    if (it != null && !it.equals(""))
+                        obj_data.addProperty("hospital", it.value)
+                }
+            } else {
+                obj_data.addProperty("hospital", lsthospdata.value!!.HospitalType.toString())
+            }
             obj_data.addProperty("rooms", strrooms.value.toString())
             obj_data.addProperty("beds", strbeds.value.toString())
 
@@ -608,14 +623,27 @@ class AddDetailsViewModel @Inject constructor(
             lstfacilitydata.value!!.forEach {
                 var objfacility_data = JsonObject()
                 objfacility_data.addProperty("facility_id", it.ID)
-                objfacility_data.addProperty("facility_name", it.Facility)
+                if (it.Facility!!.lowercase().equals("others")) {
+                    strfacilityOtherdata?.let {
+                        if (it != null && !it.equals(""))
+                            objfacility_data.addProperty("facility_name", it.value)
+                    }
+                } else
+                    objfacility_data.addProperty("facility_name", it.Facility)
+
                 arrayfacility.add(objfacility_data)
             }
             val arrayspeciality = JsonArray()
             lstspecialitydata.value!!.forEach {
                 var objspeciality_data = JsonObject()
                 objspeciality_data.addProperty("speciality_id", it.ID)
-                objspeciality_data.addProperty("speciality_name", it.Speciality)
+                if (it.Speciality!!.lowercase().equals("others")) {
+                    strspecialityOtherdata?.let {
+                        if (it != null && !it.equals(""))
+                            objspeciality_data.addProperty("speciality_name", it.value)
+                    }
+                } else
+                    objspeciality_data.addProperty("speciality_name", it.Speciality)
                 arrayspeciality.add(objspeciality_data)
             }
             val arraymolecule = JsonArray()
@@ -738,11 +766,11 @@ class AddDetailsViewModel @Inject constructor(
                 sPref = context.getSharedPreferences(
                     context.getResources().getString(R.string.app_name), Context.MODE_PRIVATE
                 )
+
                 for (i in lstimagesdata.indices) {
                     val flag: String = lstimagesdata[i].Flag
                     val path: String = lstimagesdata[i].ImagePath
                     val text: String = lstimagesdata[i].ImageText
-
                     //Uploading code
                     try {
                         viewModelScope.async {
@@ -750,27 +778,28 @@ class AddDetailsViewModel @Inject constructor(
                                 path, text, flag, addDetailsProgressbar
                             )
                         }.await()
-                        activity.finish()
-                        activity.getWindow()
-                            .clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
                     } catch (exc: Exception) {
                         exc.printStackTrace()
-                        /* Toast.makeText(this, exc.getMessage(), Toast.LENGTH_SHORT).show();*/
                     }
                 }
+                addDetailsProgressbar.visibility = View.GONE
+                submitbutton.visibility = View.VISIBLE
+                activity.finish()
+                activity.getWindow()
+                    .clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
             } catch (e: Exception) {
                 val msg = e.message
             }
         }
     }
 
-     val locationRequest = LocationRequest.create().apply {
-         interval = 3000
-         fastestInterval = 3000
-         priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
-         maxWaitTime = 5000
-     }
+    val locationRequest = LocationRequest.create().apply {
+        interval = 3000
+        fastestInterval = 3000
+        priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
+        maxWaitTime = 5000
+    }
 
     var locationCallback: LocationCallback = object : LocationCallback() {
         override fun onLocationResult(loctionResult: LocationResult) {
@@ -787,10 +816,61 @@ class AddDetailsViewModel @Inject constructor(
                 } catch (e: Exception) {
                     Log.d("tag", "location : ${e.message}")
                 }
-            }else{
-
+            } else {
             }
         }
     }
+
+    fun CallAlert(strflag: String, strtitle: String) {
+        try {
+            val alertdialog = AlertDialogFragment()
+            alertdialog.newInstance(this, strflag, strtitle)
+            alertdialog.show(
+                (activity_context as AppCompatActivity).supportFragmentManager,
+                "Dialog"
+            )
+        } catch (e: Exception) {
+            val msg = e.message
+        }
+    }
+
+    fun setDataonModel(strflag: String, strtext: String) {
+        when (strflag) {
+            "Hospital" -> strhospOtherdata.value = strtext
+            "Facility" -> strfacilityOtherdata.value = strtext
+            "Speciality" -> strspecialityOtherdata.value = strtext
+        }
+    }
+
+    fun removeDataonModel(strflag: String) {
+        when (strflag) {
+            "Hospital" ->
+                if (strhospOtherdata.value == null || strhospOtherdata.equals("")) {
+                    lsthospdata.value = null
+                }
+            "Facility" -> {
+                if (facilityotherposition != null && (strfacilityOtherdata.value == null || strfacilityOtherdata.value.equals(
+                        ""
+                    ))
+                ) {
+                    Log.i("position", facilityotherposition.toString())
+                    lstfacility.remove(facilityotherposition)
+                    strfacilityOtherdata.value = ""
+                }
+            }
+            "Speciality" -> {
+                if (specialityotherposition != null && (strspecialityOtherdata.value == null || strspecialityOtherdata.value.equals(
+                        ""
+                    ))
+                ) {
+                    Log.i("position", specialityotherposition.toString())
+                    lstspeciality.remove(specialityotherposition)
+                    strspecialityOtherdata.value = ""
+                }
+            }
+
+        }
+    }
+
 
 }

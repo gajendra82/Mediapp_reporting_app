@@ -67,7 +67,8 @@
                         android:id="@+id/edittextstock_name"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:inputType="text"
+                        android:inputType="textEmailAddress"
+                        android:digits="qwertyuiopasdfghjklzxcvbnm 1234567890 QWERTYUIOPASDFGHJKLZXCVBNM"
                         android:lines="1"
                         android:text="@={stockist_data.strstockname}" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -95,7 +96,7 @@
                         android:layout_height="match_parent"
                         android:drawableEnd="@drawable/ic_my_location"
                         android:drawablePadding="12dp"
-                        android:inputType="textMultiLine"
+                        android:inputType="textMultiLine|textEmailAddress"
                         android:maxLength="5000"
                         android:scrollbars="vertical"
                         android:text="@={stockist_data.strstockaddress}" />
@@ -170,7 +171,7 @@
                         android:id="@+id/edittextcontact_name"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:inputType="text"
+                        android:inputType="textEmailAddress"
                         android:lines="1"
                         android:text="@={stockist_data.strstockpersonalname}" />
                 </com.google.android.material.textfield.TextInputLayout>

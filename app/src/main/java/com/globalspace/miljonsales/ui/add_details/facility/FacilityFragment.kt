@@ -23,6 +23,7 @@ class FacilityFragment : Fragment(R.layout.fragment_facility){
     @Inject
     lateinit var mainviewmodelFactory: MainViewModelFactoryNew
     private lateinit var addDetailsViewModel: AddDetailsViewModel
+    private var  adapter: FacilityRvAdapterr? = null
     internal val dialog = AddDetaillsDialog()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,8 +45,14 @@ class FacilityFragment : Fragment(R.layout.fragment_facility){
                 }
             }
 
+
+            addDetailsViewModel.strfacilityOtherdata.observe(viewLifecycleOwner){
+                if(adapter != null)
+                binding!!.rvfacility.adapter!!.notifyDataSetChanged()
+            }
+
             addDetailsViewModel.lstfacilitydata.observe(viewLifecycleOwner){
-                val adapter = FacilityRvAdapterr(it,addDetailsViewModel)
+                adapter = FacilityRvAdapterr(requireContext(),it,addDetailsViewModel)
                 binding!!.rvfacility.adapter = adapter
             }
 

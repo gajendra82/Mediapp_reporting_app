@@ -1,7 +1,6 @@
 package com.globalspace.miljonsales.ui.add_details
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
@@ -22,7 +21,6 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
-import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -37,27 +35,15 @@ import com.globalspace.miljonsales.BuildConfig
 import com.globalspace.miljonsales.MyApplication
 import com.globalspace.miljonsales.R
 import com.globalspace.miljonsales.databinding.FragmentAddDetailsBinding
-import com.globalspace.miljonsales.local_db.entity.FetchGeography
 import com.globalspace.miljonsales.ui.URIPathHelper
 import com.globalspace.miljonsales.ui.add_details_dashboard.AddImages
 import com.globalspace.miljonsales.viewmodelfactory.MainViewModelFactoryNew
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
-import com.google.android.gms.location.LocationRequest
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.TextRecognizer
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
-import com.karumi.dexter.MultiplePermissionsReport
-import com.karumi.dexter.PermissionToken
-import com.karumi.dexter.listener.PermissionDeniedResponse
-import com.karumi.dexter.listener.PermissionGrantedResponse
-import com.karumi.dexter.listener.PermissionRequest
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener
-import com.karumi.dexter.listener.single.PermissionListener
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.text.SimpleDateFormat
@@ -71,6 +57,7 @@ class AddDetailsFragment : Fragment(R.layout.fragment_add_details) {
     private val binding get() = _binding
     var uri: Uri? = null
     var flag_check: String = "new"
+    var flag_dialog: String = "close"
     lateinit var textRecognizer: TextRecognizer
     lateinit var geocoder: Geocoder
     var strImages = ""
@@ -81,6 +68,7 @@ class AddDetailsFragment : Fragment(R.layout.fragment_add_details) {
     private lateinit var addDetailsViewModel: AddDetailsViewModel
     private lateinit var locationCallback: LocationCallback
     internal val dialog = AddDetaillsDialog()
+    internal val alertdialog = AlertDialogFragment()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -105,17 +93,26 @@ class AddDetailsFragment : Fragment(R.layout.fragment_add_details) {
                     val address = geocoder.getFromLocation(it.latitude, it.longitude, 1)
                     binding!!.edittextAddress.setText(address[0].getAddressLine(0))
                     binding!!.edittextPincode.setText(address[0].postalCode)
-                    addDetailsViewModel.fetchStateData(address[0].adminArea)!!
+                   /* addDetailsViewModel.fetchStateData(address[0].adminArea)!!
                         .observe(viewLifecycleOwner) {
                             addDetailsViewModel.lstdata.value = it
-                        }
-                    addDetailsViewModel.fetchCityData(address[0].locality)!!
+                        }*/
+                    addDetailsViewModel.lstdata.value = FetchGeography(0,"",0,address[0].adminArea,0,"",0)
+                    addDetailsViewModel.lstcitydata.value = FetchGeography(0,"",0,"",0,address[0].locality,0)
+                   /* addDetailsViewModel.fetchCityData(address[0].locality)!!
                         .observe(viewLifecycleOwner) {
                             addDetailsViewModel.lstcitydata.value = it
-                        }
+                        }*/
                 }
             }
-
+            addDetailsViewModel.strhospOtherdata.observe(viewLifecycleOwner){
+                if(it == null || it.equals("")) {
+                    binding!!.imgEdit.visibility = View.GONE
+                }
+                else {
+                    binding!!.imgEdit.visibility = View.VISIBLE
+                }
+            }
             addDetailsViewModel.lstdata.observe(viewLifecycleOwner) {
                 binding!!.edittextState.setText(it.STATE_NAME.toString())
             }
@@ -126,7 +123,18 @@ class AddDetailsFragment : Fragment(R.layout.fragment_add_details) {
                     binding!!.edittextCity.setText(it.CITY_NAME.toString())
             }
             addDetailsViewModel.lsthospdata.observe(viewLifecycleOwner) {
-                binding!!.edittextHospital.setText(it.HospitalType.toString())
+                if(it == null){
+                    binding!!.edittextHospital.setText("")
+                }else if (it!!.HospitalType.toString().equals("Others")) {
+                    binding!!.edittextHospital.setText(it.HospitalType.toString())
+                    if(flag_dialog.equals("open")){
+                        alertdialog.newInstance(addDetailsViewModel!!,"Hospital","Enter Hospital")
+                        alertdialog.show((context as AppCompatActivity).supportFragmentManager, "Dialog")
+                    }
+                }else {
+                    binding!!.edittextHospital.setText(it.HospitalType.toString())
+                    addDetailsViewModel.strhospOtherdata.value = ""
+                }
             }
             addDetailsViewModel.boardimage.observe(viewLifecycleOwner) {
                 binding!!.imgViewer.visibility = View.VISIBLE
@@ -148,6 +156,14 @@ class AddDetailsFragment : Fragment(R.layout.fragment_add_details) {
             })
 
             binding?.let {
+                it.imgEdit.setOnClickListener {
+                    alertdialog.newInstance(
+                        addDetailsViewModel!!,
+                        "Hospital",
+                        "Enter Hospital"
+                    )
+                    alertdialog.show((context as AppCompatActivity).supportFragmentManager, "Dialog")
+                }
                 it.edittextName.doOnTextChanged { text, start, count, after ->
                     if (addDetailsViewModel.ValidateName(text.toString())) {
                         it.textinpName.error = null
@@ -179,6 +195,7 @@ class AddDetailsFragment : Fragment(R.layout.fragment_add_details) {
                 }
                 it.edittextHospital.setOnClickListener {
                     Log.i("tag", "clicked")
+                    flag_dialog = "open"
                     dialog.newInstance(addDetailsViewModel, "Hospital")
                     dialog.show((context as AppCompatActivity).supportFragmentManager, "Dialog")
                 }
@@ -425,6 +442,11 @@ class AddDetailsFragment : Fragment(R.layout.fragment_add_details) {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        flag_dialog = "close"
     }
 
 }

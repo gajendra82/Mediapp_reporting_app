@@ -61,7 +61,9 @@
                     android:id="@+id/edittext_name"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:inputType="text"
+                    android:inputType="textEmailAddress"
+                    android:imeOptions="actionNext"
+                    android:digits="qwertyuiopasdfghjklzxcvbnm 1234567890 QWERTYUIOPASDFGHJKLZXCVBNM"
                     android:text="@={purchaseactivity_data.strpurch_authorityname}"
                     android:lines="1" />
             </com.google.android.material.textfield.TextInputLayout>

@@ -14,17 +14,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.globalspace.miljonsales.R
 import com.globalspace.miljonsales.databinding.DialogSearchableSpinnerBinding
-import com.globalspace.miljonsales.local_db.entity.FetchGeography
-import com.globalspace.miljonsales.local_db.entity.FetchHospital
+
 import com.globalspace.miljonsales.ui.add_details.competitorbrands.AddDetailsDialogCompetitorBrandAdapter
 import com.globalspace.miljonsales.ui.add_details.consumptions.AddDetailsDialogConsumptionAdapter
-import com.globalspace.miljonsales.ui.add_details.consumptions.AddDetailsReasonAdapter
 import com.globalspace.miljonsales.ui.add_details.facility.AddDetailsDialogFacilityAdapter
 import com.globalspace.miljonsales.ui.add_details.molecule.AddDetailsDialogMoleculeAdapter
 import com.globalspace.miljonsales.ui.add_details.speciality.AddDetailsDialogSpecialityAdapter
 import com.globalspace.miljonsales.ui.add_details.strength.AddDetailsDialogStrengthAdapter
 import com.globalspace.miljonsales.ui.add_details_dashboard.*
 import com.globalspace.miljonsales.viewmodelfactory.MainViewModelFactoryNew
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
@@ -45,14 +46,14 @@ class AddDetaillsDialog : DialogFragment(), AddDetailsDialogAdapter.onItemClickL
     @Inject
     lateinit var mainviewmodelFactory: MainViewModelFactoryNew
     private lateinit var addDetailsViewModel: AddDetailsViewModel
-    lateinit var rvAdapter: AddDetailsDialogAdapter
-    lateinit var rvconsumpAdapter: AddDetailsDialogConsumptionAdapter
-    lateinit var rvcompbrandAdapter: AddDetailsDialogCompetitorBrandAdapter
-    lateinit var adapter: AddDetailsDialogHospitalAdapter
-    lateinit var adapterfacility: AddDetailsDialogFacilityAdapter
-    lateinit var adapterspeciality: AddDetailsDialogSpecialityAdapter
-    lateinit var adaptermolecule: AddDetailsDialogMoleculeAdapter
-    lateinit var adapterstrength: AddDetailsDialogStrengthAdapter
+    var rvAdapter: AddDetailsDialogAdapter? = null
+    var rvconsumpAdapter: AddDetailsDialogConsumptionAdapter? = null
+    var rvcompbrandAdapter: AddDetailsDialogCompetitorBrandAdapter? = null
+    var adapter: AddDetailsDialogHospitalAdapter? = null
+    var adapterfacility: AddDetailsDialogFacilityAdapter? = null
+    var adapterspeciality: AddDetailsDialogSpecialityAdapter? = null
+    var adaptermolecule: AddDetailsDialogMoleculeAdapter? = null
+    var adapterstrength: AddDetailsDialogStrengthAdapter? = null
 
     var strflag: String = "State"
     var strcheckdata: Int = 0
@@ -74,12 +75,14 @@ class AddDetaillsDialog : DialogFragment(), AddDetailsDialogAdapter.onItemClickL
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupView()
+        CoroutineScope(Dispatchers.Main).launch {
+            setupView()
+        }
         setTextFilter()
     }
 
 
-    private fun setupView() {
+    private suspend fun setupView() {
         try {
 
             val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(requireContext())
@@ -88,7 +91,8 @@ class AddDetaillsDialog : DialogFragment(), AddDetailsDialogAdapter.onItemClickL
             binding!!.editText.setText("")
             if (strflag.equals("Hospital")) {
                 binding!!.tvtitle.setText(resources.getString(R.string.hint_hospital))
-                addDetailsViewModel.fetchHospData()
+                binding!!.dialogProgressbar.visibility = View.VISIBLE
+                addDetailsViewModel.fetchHospData(binding!!.dialogProgressbar)
                     ?.observe(viewLifecycleOwner, object : Observer<List<FetchHospital>> {
                         override fun onChanged(t: List<FetchHospital>?) {
                             t?.let {
@@ -107,8 +111,9 @@ class AddDetaillsDialog : DialogFragment(), AddDetailsDialogAdapter.onItemClickL
                     })
             } else if (strflag.equals("Facility")) {
                 binding!!.tvtitle.setText(resources.getString(R.string.hint_item))
-                addDetailsViewModel.fetchFacilityData()
-                    ?.observe(viewLifecycleOwner, object : Observer<List<FetchFacility>> {
+                binding!!.dialogProgressbar.visibility = View.VISIBLE
+                addDetailsViewModel.fetchFacilityData(binding!!.dialogProgressbar)
+                    ?.observe(viewLifecycleOwner, object : Observer<List<FetchFacility>?> {
                         override fun onChanged(t: List<FetchFacility>?) {
                             t?.let {
                                 strcheckdata = it.size
@@ -125,9 +130,9 @@ class AddDetaillsDialog : DialogFragment(), AddDetailsDialogAdapter.onItemClickL
                                 }
                                 adapterfacility =
                                     AddDetailsDialogFacilityAdapter(
+                                        addDetailsViewModel,
                                         lstfacility,
                                         this@AddDetaillsDialog,
-                                        strflag
                                     )
                                 binding!!.listView.adapter = adapterfacility
                             }
@@ -136,7 +141,8 @@ class AddDetaillsDialog : DialogFragment(), AddDetailsDialogAdapter.onItemClickL
                     })
             } else if (strflag.equals("Speciality")) {
                 binding!!.tvtitle.setText(resources.getString(R.string.hint_item))
-                addDetailsViewModel.fetchSpecialityData()
+                binding!!.dialogProgressbar.visibility = View.VISIBLE
+                addDetailsViewModel.fetchSpecialityData(binding!!.dialogProgressbar)
                     ?.observe(viewLifecycleOwner, object : Observer<List<FetchSpeciality>> {
                         override fun onChanged(t: List<FetchSpeciality>?) {
                             t?.let {
@@ -154,6 +160,7 @@ class AddDetaillsDialog : DialogFragment(), AddDetailsDialogAdapter.onItemClickL
                                 }
                                 adapterspeciality =
                                     AddDetailsDialogSpecialityAdapter(
+                                        addDetailsViewModel,
                                         lstspeciality,
                                         this@AddDetaillsDialog
                                     )
@@ -224,7 +231,8 @@ class AddDetaillsDialog : DialogFragment(), AddDetailsDialogAdapter.onItemClickL
 
             } else if (strflag.equals("State") || strflag.equals("StockistState")) {
                 binding!!.tvtitle.setText(resources.getString(R.string.hint_state))
-                addDetailsViewModel.fetchStateData()
+                binding!!.dialogProgressbar.visibility = View.VISIBLE
+                addDetailsViewModel.fetchStateData(binding!!.dialogProgressbar)
                     ?.observe(viewLifecycleOwner, object : Observer<List<FetchGeography>> {
                         override fun onChanged(t: List<FetchGeography>?) {
                             t?.let {
@@ -296,7 +304,11 @@ class AddDetaillsDialog : DialogFragment(), AddDetailsDialogAdapter.onItemClickL
                     })
             } else if (strflag.equals("StockistCity")) {
                 binding!!.tvtitle.setText(resources.getString(R.string.hint_city))
-                addDetailsViewModel.fetchStateCityData(addDetailsViewModel.lststockdata.value!!.STATE_CODE!!)
+                binding!!.dialogProgressbar.visibility = View.VISIBLE
+                addDetailsViewModel.fetchCityData(
+                    binding!!.dialogProgressbar,
+                    addDetailsViewModel.lststockdata.value!!.STATE_NAME!!
+                )
                     ?.observe(viewLifecycleOwner, object : Observer<List<FetchGeography>> {
                         override fun onChanged(t: List<FetchGeography>?) {
                             t?.let {
@@ -318,7 +330,11 @@ class AddDetaillsDialog : DialogFragment(), AddDetailsDialogAdapter.onItemClickL
 
             } else {
                 binding!!.tvtitle.setText(resources.getString(R.string.hint_city))
-                addDetailsViewModel.fetchStateCityData(addDetailsViewModel.lstdata.value!!.STATE_CODE!!)
+                binding!!.dialogProgressbar.visibility = View.VISIBLE
+                addDetailsViewModel.fetchCityData(
+                    binding!!.dialogProgressbar,
+                    addDetailsViewModel.lstdata.value!!.STATE_NAME!!
+                )
                     ?.observe(viewLifecycleOwner, object : Observer<List<FetchGeography>> {
                         override fun onChanged(t: List<FetchGeography>?) {
                             t?.let {
@@ -342,24 +358,24 @@ class AddDetaillsDialog : DialogFragment(), AddDetailsDialogAdapter.onItemClickL
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable) {
-                if (strcheckdata > 0) {
-                    if (strflag.equals("Hospital"))
-                        adapter.getFilter().filter(s)
-                    else if (strflag.equals("Facility"))
-                        adapterfacility.getFilter().filter(s)
-                    else if (strflag.equals("Speciality"))
-                        adapterspeciality.getFilter().filter(s)
-                    else if (strflag.equals("Molecule"))
-                        adaptermolecule.getFilter().filter(s)
-                    else if (strflag.equals("Strength"))
-                        adapterstrength.getFilter().filter(s)
-                    else if (strflag.equals("ConsumptionStrength") || strflag.equals("ConsumptionBrand"))
-                        rvconsumpAdapter.getFilter().filter(s)
-                    else if (strflag.equals("CompetitorStrength") || strflag.equals("CompetitorBrand"))
-                        rvcompbrandAdapter.getFilter().filter(s)
-                    else
-                        rvAdapter.getFilter().filter(s)
+                if (strflag.equals("Hospital")) {
+                    adapter?.getFilter()?.filter(s)
+                } else if (strflag.equals("Facility"))
+                    adapterfacility?.getFilter()?.filter(s)
+                else if (strflag.equals("Speciality"))
+                    adapterspeciality?.getFilter()?.filter(s)
+                else if (strflag.equals("Molecule"))
+                    adaptermolecule?.getFilter()?.filter(s)
+                else if (strflag.equals("Strength"))
+                    adapterstrength?.getFilter()?.filter(s)
+                else if (strflag.equals("ConsumptionStrength") || strflag.equals("ConsumptionBrand"))
+                    rvconsumpAdapter?.getFilter()?.filter(s)
+                else if (strflag.equals("CompetitorStrength") || strflag.equals("CompetitorBrand"))
+                    rvcompbrandAdapter?.getFilter()?.filter(s)
+                else {
+                    rvAdapter?.getFilter()?.filter(s)
                 }
+
             }
         })
     }
@@ -382,12 +398,10 @@ class AddDetaillsDialog : DialogFragment(), AddDetailsDialogAdapter.onItemClickL
         if (strflag.equals("State")) {
             addDetailsViewModel.lstdata.value = fetchGeography
             addDetailsViewModel.lstcitydata.value = null
-        }
-        else if (strflag.equals("StockistState")) {
+        } else if (strflag.equals("StockistState")) {
             addDetailsViewModel.lststockdata.value = fetchGeography
             addDetailsViewModel.lststockcitydata.value = null
-        }
-        else if (strflag.equals("StockistCity"))
+        } else if (strflag.equals("StockistCity"))
             addDetailsViewModel.lststockcitydata.value = fetchGeography
         else
             addDetailsViewModel.lstcitydata.value = fetchGeography

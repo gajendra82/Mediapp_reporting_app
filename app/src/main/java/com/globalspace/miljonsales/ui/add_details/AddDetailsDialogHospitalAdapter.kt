@@ -6,7 +6,6 @@ import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.globalspace.miljonsales.databinding.DialogAdapterBinding
-import com.globalspace.miljonsales.local_db.entity.FetchHospital
 
 class AddDetailsDialogHospitalAdapter(
     private val lstdata: List<FetchHospital>,

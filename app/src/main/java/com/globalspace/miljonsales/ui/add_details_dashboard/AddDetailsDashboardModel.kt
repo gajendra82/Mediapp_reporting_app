@@ -6,20 +6,15 @@ import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-data class AddDetailsModel(
-   val status: String, val error: String,val errorMessage: String,val response : ArrayList<FetchGeography>
-)
 
-data class AddDetailsHospitalModel(
-   val status: String, val error: String,val errorMessage: String,val response : ArrayList<FetchHospital>
-)
+
 
 data class AddDetailsFacilityModel(
-   val status: String, val error: String,val errorMessage: String,val response : ArrayList<FetchHospitalFacility>
+   val status: String, val error: String,val errorMessage: String,val response : ArrayList<FetchFacility>
 )
 
 data class AddDetailsSpecialityModel(
-   val status: String, val error: String,val errorMessage: String,val response : ArrayList<FetchSpecialityTypes>
+   val status: String, val error: String,val errorMessage: String,val response : ArrayList<FetchSpeciality>
 )
 
 data class AddDetailsConsumptionModel(

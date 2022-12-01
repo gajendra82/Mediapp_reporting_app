@@ -31,6 +31,7 @@ import com.globalspace.miljonsales.databinding.ActivityConsumptionBinding
 import com.globalspace.miljonsales.databinding.ActivityStockistBinding
 import com.globalspace.miljonsales.ui.add_details.AddDetaillsDialog
 import com.globalspace.miljonsales.ui.add_details.AddDetailsViewModel
+import com.globalspace.miljonsales.ui.add_details.FetchGeography
 import com.globalspace.miljonsales.ui.add_details.consumptions.ConsumptionFragment
 import com.globalspace.miljonsales.utils.WindowBar
 import com.globalspace.miljonsales.viewmodelfactory.MainViewModelFactoryNew
@@ -80,7 +81,10 @@ class StockistActivity : AppCompatActivity() {
                 val address = geocoder.getFromLocation(it.latitude, it.longitude, 1)
                 binding!!.edittextstockAddress.setText(address[0].getAddressLine(0))
                 binding!!.edittextstockPincode.setText(address[0].postalCode)
-                addDetailsViewModel?.let {
+
+                addDetailsViewModel!!.lststockdata.value = FetchGeography(0,"",0,address[0].adminArea,0,"",0)
+                addDetailsViewModel!!.lststockcitydata.value = FetchGeography(0,"",0,"",0,address[0].locality,0)
+              /*  addDetailsViewModel?.let {
                     it.fetchStateData(address[0].adminArea)!!.observe(this, Observer { data->
                         it.lststockdata.value = data
 
@@ -89,7 +93,7 @@ class StockistActivity : AppCompatActivity() {
                     it.fetchCityData(address[0].locality)!!.observe(this, Observer { data->
                         it.lststockcitydata.value = data
                     })
-                }
+                }*/
             }
         })
 

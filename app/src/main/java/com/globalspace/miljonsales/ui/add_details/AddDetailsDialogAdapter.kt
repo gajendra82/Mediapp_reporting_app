@@ -8,7 +8,7 @@ import android.widget.Filterable
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.globalspace.miljonsales.databinding.DialogAdapterBinding
-import com.globalspace.miljonsales.local_db.entity.FetchGeography
+
 
 class AddDetailsDialogAdapter(
     private val lstdata: List<FetchGeography>,

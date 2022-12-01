@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import com.globalspace.miljonsales.fragment.AddcoveredpincodeFragment;
 import com.globalspace.miljonsales.ui.add_details_dashboard.AddDetailsDashboardFragment;
+import com.globalspace.miljonsales.ui.add_details_dashboard.DashboardItemDetailsActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.fragment.app.Fragment;
@@ -60,7 +61,7 @@ public class Dashboard extends AppCompatActivity
     private FragmentTransaction transaction;
     private Toolbar searchToolbar, editToolbar;
     private SimpleDateFormat sdf;
-
+    public static String flagdashboard = "new";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,7 +132,6 @@ public class Dashboard extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
-
         username = (TextView) headerView.findViewById(R.id.username_tv);
         reporting_manager = (TextView) headerView.findViewById(R.id.rm_tv);
         if (sPref.getString(getResources().getString(R.string.reporting_manager), "").equals("")) {
@@ -373,7 +373,7 @@ public class Dashboard extends AppCompatActivity
         super.onResume();
         sdf = new SimpleDateFormat("dd MMMM yyyy");
         String currentDate = sdf.format(new Date());
-        if(toolbartitle.getText().equals(currentDate)){
+        if(toolbartitle.getText().equals(currentDate) && flagdashboard.equals("submitdata")){
             fragment = new AddDetailsDashboardFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, fragment).commit();
         }

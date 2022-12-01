@@ -1,5 +1,6 @@
 package com.globalspace.miljonsales.retrofit
 
+import com.globalspace.miljonsales.ui.add_details.*
 import com.globalspace.miljonsales.ui.add_details_dashboard.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -11,8 +12,10 @@ interface ApiInterfaceNew {
 
     @FormUrlEncoded
     @POST("reporting.php")
-    suspend fun GetHospitalSummaryData(@Field("function_name") function_name: String,
-                                       @Field("EmployeeID") employeeID: String): Response<SummaryModel>
+    suspend fun GetHospitalSummaryData(
+        @Field("function_name") function_name: String,
+        @Field("EmployeeID") employeeID: String
+    ): Response<SummaryModel>
 
     @FormUrlEncoded
     @POST("reporting.php")
@@ -24,6 +27,13 @@ interface ApiInterfaceNew {
     @FormUrlEncoded
     @POST("reporting.php")
     suspend fun add_details_citymaster(@Field("function_name") function_name: String): Response<AddDetailsModel>
+
+    @FormUrlEncoded
+    @POST("reporting.php")
+    suspend fun add_details_citymaster(
+        @Field("function_name") function_name: String,
+        @Field("state_name") employeeID: String
+    ): Response<CityModel>
 
     @FormUrlEncoded
     @POST("reporting.php")

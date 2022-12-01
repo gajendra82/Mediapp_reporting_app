@@ -3,7 +3,6 @@ package com.globalspace.miljonsales.di
 import androidx.lifecycle.ViewModel
 import com.globalspace.miljonsales.ui.add_details.AddDetailsViewModel
 import com.globalspace.miljonsales.ui.add_details_dashboard.AddDetailsDashboardViewModel
-import com.globalspace.miljonsales.ui.add_details_dashboard.AddDetailsModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.ClassKey

@@ -28,7 +28,9 @@
             android:text="@{facility_data.facility}"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:paddingRight="12dp"
             android:layout_marginEnd="16dp"
+            app:IcontouchListener="@{facility_datamodel}"
             app:layout_constraintEnd_toStartOf="@+id/img_delete"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -37,11 +39,11 @@
             android:id="@+id/img_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/delete"
             android:onClick="@{()-> facility_datamodel.removeFacility(facility_data)}"
+            android:src="@drawable/delete"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_facility_name"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/tv_facility_name" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -24,6 +24,7 @@ class SpecialityFragment : Fragment(R.layout.fragment_facility){
     @Inject
     lateinit var mainviewmodelFactory: MainViewModelFactoryNew
     private lateinit var addDetailsViewModel: AddDetailsViewModel
+    private var  adapter: SpecialityRvAdapter? = null
     internal val dialog = AddDetaillsDialog()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -44,8 +45,13 @@ class SpecialityFragment : Fragment(R.layout.fragment_facility){
                 }
             }
 
+            addDetailsViewModel.strspecialityOtherdata.observe(viewLifecycleOwner){
+                if(adapter != null)
+                binding!!.rvfacility.adapter!!.notifyDataSetChanged()
+            }
+
             addDetailsViewModel.lstspecialitydata.observe(viewLifecycleOwner){
-                val adapter = SpecialityRvAdapter(it,addDetailsViewModel)
+                adapter = SpecialityRvAdapter(it,addDetailsViewModel)
                 binding!!.rvfacility.adapter = adapter
             }
 

@@ -3,6 +3,7 @@ package com.globalspace.miljonsales.ui.add_details.speciality
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.globalspace.miljonsales.R
 import com.globalspace.miljonsales.databinding.LayoutFacilityAdapterBinding
 import com.globalspace.miljonsales.databinding.LayoutSpecialityAdapterBinding
 import com.globalspace.miljonsales.ui.add_details.AddDetailsViewModel
@@ -30,6 +31,21 @@ class SpecialityRvAdapter(
             binding.specialityData = lstdata[position]
             binding.specialityDatamodel = addDetailsViewModel
             binding.executePendingBindings()
+
+            if(lstdata[position].Speciality!!.lowercase().equals("others")){
+                addDetailsViewModel?.let {
+                    if(it.strspecialityOtherdata.value == null || it.strspecialityOtherdata.value.equals("")){
+                        binding!!.tvFacilityName.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0)
+                    }else{
+                        binding.tvFacilityName.setText(it.strspecialityOtherdata.value.toString().uppercase())
+                        binding!!.tvFacilityName.setCompoundDrawablesWithIntrinsicBounds(0,0,
+                            R.drawable.ic_edit,0)
+                    }
+
+                }
+            }else{
+                binding!!.tvFacilityName.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0)
+            }
         }
     }
 

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -13,18 +14,22 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.globalspace.miljonsales.MyApplication
 import com.globalspace.miljonsales.R
+import com.globalspace.miljonsales.activity.Dashboard
 import com.globalspace.miljonsales.databinding.AddDetailsFragmentBinding
 import com.globalspace.miljonsales.interface_.di.AppPreference
 import com.globalspace.miljonsales.local_db.entity.FetchHospitalSummmary
 import com.globalspace.miljonsales.ui.add_details.AddDetailsActivity
 import com.globalspace.miljonsales.viewmodelfactory.MainViewModelFactoryNew
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import javax.inject.Inject
 
 class AddDetailsDashboardFragment : Fragment(R.layout.add_details_fragment) {
 
     private lateinit var dashboardViewModel: AddDetailsDashboardViewModel
-
+    private lateinit var layoutManager : GridLayoutManager
     @Inject
     lateinit var mainviewmodelFactory: MainViewModelFactoryNew
     lateinit var floatingActionButton: FloatingActionButton
@@ -46,6 +51,7 @@ class AddDetailsDashboardFragment : Fragment(R.layout.add_details_fragment) {
                     AddDetailsDashboardViewModel::class.java
                 )
             dashboardViewModel.StartGeoSync(binding!!.progressBarDashboard)
+            Dashboard.flagdashboard = "new"
             sPref = requireContext().getSharedPreferences(
                 requireContext().getResources().getString(R.string.app_name), Context.MODE_PRIVATE
             )
@@ -108,9 +114,33 @@ class AddDetailsDashboardFragment : Fragment(R.layout.add_details_fragment) {
     }
 
     private fun addRecyclerview() {
-        val  layoutManager = GridLayoutManager(context,2)
+        try {
+            val displayMetrics = DisplayMetrics()
+            requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
+
+            var width = displayMetrics.widthPixels
+            var height = displayMetrics.heightPixels
+            Log.i("tag", "width: ${width}")
+            if (width == 2000) {
+                layoutManager = GridLayoutManager(context,3)
+            } else {
+                layoutManager = GridLayoutManager(context,2)
+            }
+
+        } catch (e: Exception) {
+            Log.e("TAG", "error : ${e.message}")
+        }
+       // val  layoutManager = GridLayoutManager(context,2)
         binding!!.rvhospcount.layoutManager = layoutManager
     }
+
+    private fun initialiseAdapter() {
+        val layoutManager = FlexboxLayoutManager(context)
+        layoutManager.setJustifyContent(JustifyContent.FLEX_START)
+        layoutManager.setFlexWrap(FlexWrap.WRAP)
+        binding!!.rvhospcount.layoutManager = layoutManager
+    }
+
     private fun addrvHosp() {
         val layoutManager = LinearLayoutManager(requireActivity().applicationContext)
         binding!!.rvhosplist.layoutManager = layoutManager

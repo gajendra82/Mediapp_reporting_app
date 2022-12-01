@@ -21,11 +21,12 @@ public class Constants {
     //public static String login_url = "http://testing.solt.in/mediapp/sales_reporting/";
 
     //Testing URL
-    public static String login_url = "http://13.127.182.214/mediapp/miljon_advance/uat/sales_reporting/v1/";
-    public static String BASE_URL = "http://13.127.182.214/mediapp/miljon_advance/uat/sales_reporting/v1/";
+   /* public static String login_url = "http://13.127.182.214/mediapp/miljon_advance/uat/sales_reporting/v1/";
+    public static String BASE_URL = "http://13.127.182.214/mediapp/miljon_advance/uat/sales_reporting/v1/";*/
 
     //Live URL
-  //  public static String BASE_URL = "http://13.232.159.181/mediapp/miljon_advance/uat/sales_reporting/v1/";
+    public static String login_url = "http://13.232.159.181/mediapp/miljon_advance/uat/sales_reporting/v1/";
+    public static String BASE_URL = "http://13.232.159.181/mediapp/miljon_advance/uat/sales_reporting/v1/";
 
     //reporting.php
 

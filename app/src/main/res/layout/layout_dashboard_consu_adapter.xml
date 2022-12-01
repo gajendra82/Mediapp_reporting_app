@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text= "Brand : "
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -28,6 +28,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tvbrand"
             app:layout_constraintTop_toTopOf="parent" />
@@ -38,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Strength : "
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvbrand" />
@@ -49,6 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tvstrength"
             app:layout_constraintTop_toBottomOf="@+id/tvbrand" />
@@ -63,55 +65,57 @@
             app:flexWrap="wrap"
             app:alignContent="flex_start">
         <TextView
-            android:id="@+id/tvqty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Qty : "
-            android:textSize="16dp"
-            android:textColor="@color/black" />
-
-        <TextView
             android:id="@+id/tvqtyvalue"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
+            android:text="Qty : 0"
+            android:textSize="16sp" />
+
+     <!--   <TextView
+            android:id="@+id/tvqtyvalue"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="16sp"
             android:layout_marginEnd="12dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp" />
-
-        <TextView
-            android:id="@+id/tvmrp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Mrp : "
-            android:textSize="16dp"
-            android:textColor="@color/black" />
+            android:layout_marginTop="8dp" />-->
 
         <TextView
             android:id="@+id/tvmrpvalue"
             android:layout_width="wrap_content"
-            android:layout_marginEnd="12dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp" />
-
-        <TextView
-            android:id="@+id/tvrate"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Rate : "
-            android:textSize="16dp"
-            android:textColor="@color/black"/>
+            android:text="Mrp : 0"
+            android:layout_marginStart="12dp"
+            android:textSize="16sp" />
+
+       <!-- <TextView
+            android:id="@+id/tvmrpvalue"
+            android:layout_width="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:textSize="16sp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp" />-->
 
         <TextView
             android:id="@+id/tvratevalue"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="12dp"
+            android:text="Rate : 0"
+            android:textSize="16sp" />
+
+        <!--<TextView
+            android:id="@+id/tvratevalue"
+            android:layout_width="wrap_content"
             android:layout_marginEnd="12dp"
+            android:textSize="16sp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp" />-->
         </com.google.android.flexbox.FlexboxLayout>
 
 

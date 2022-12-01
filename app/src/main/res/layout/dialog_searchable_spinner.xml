@@ -31,6 +31,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/edit_text"
             android:hint="Search..."
+            android:inputType="textEmailAddress"
             android:textColorHint="@color/colorPrimary"
             android:textColor="@color/black"
             android:padding="12dp"
@@ -39,6 +40,12 @@
             android:layout_marginBottom="8dp"
             android:background="@android:drawable/editbox_background" />
 
+        <ProgressBar
+            android:id="@+id/dialog_progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_gravity="center"/>
         <!-- List view to insert list of items-->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/list_view"

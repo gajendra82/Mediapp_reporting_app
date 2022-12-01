@@ -6,8 +6,6 @@ import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.globalspace.miljonsales.databinding.DialogAdapterBinding
-import com.globalspace.miljonsales.local_db.entity.FetchGeography
-import com.globalspace.miljonsales.ui.add_details.AddDetailsDialogAdapter
 import com.globalspace.miljonsales.ui.add_details_dashboard.FetchMolecule
 
 class AddDetailsDialogConsumptionAdapter(

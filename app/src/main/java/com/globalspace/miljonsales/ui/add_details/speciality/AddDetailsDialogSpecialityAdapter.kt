@@ -7,11 +7,13 @@ import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.globalspace.miljonsales.databinding.DialogAdapterBinding
+import com.globalspace.miljonsales.ui.add_details.AddDetailsViewModel
 import com.globalspace.miljonsales.ui.add_details.facility.AddDetailsDialogFacilityAdapter
 import com.globalspace.miljonsales.ui.add_details_dashboard.FetchFacility
 import com.globalspace.miljonsales.ui.add_details_dashboard.FetchSpeciality
 
 class AddDetailsDialogSpecialityAdapter(
+    private val addDetailsViewModel: AddDetailsViewModel,
     private val lstdata: List<FetchSpeciality>,
     private val listener: onItemSpecialityClickListener
 ) :
@@ -44,9 +46,17 @@ class AddDetailsDialogSpecialityAdapter(
                     if(b){
                         filteredList!![adapterPosition].isCheckFlag = true
                         listener.onItemSpecialityClickListener(adapterPosition, filteredList!![adapterPosition],true)
+                        if((addDetailsViewModel.strspecialityOtherdata.value == null || addDetailsViewModel.strspecialityOtherdata.value.equals("")) && filteredList!![adapterPosition].Speciality!!.lowercase().equals("others")){
+                            addDetailsViewModel.specialityotherposition = filteredList!![adapterPosition]
+                            addDetailsViewModel.CallAlert("Speciality","Enter Other Speciality")
+                        }
                     }else{
                         filteredList!![adapterPosition].isCheckFlag = false
                         listener.onItemSpecialityClickListener(adapterPosition, filteredList!![adapterPosition],false)
+                        if(filteredList!![adapterPosition].Speciality!!.lowercase().equals("others")){
+                            addDetailsViewModel.strspecialityOtherdata.value = ""
+                        }
+
                     }
                 }
             }

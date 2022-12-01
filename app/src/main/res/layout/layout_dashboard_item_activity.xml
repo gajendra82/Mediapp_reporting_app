@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <import type="android.view.View" />
-
         <variable
             name="dashboard_data"
             type="com.globalspace.miljonsales.ui.add_details_dashboard.DashboardData" />
@@ -57,7 +57,7 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:padding="20dp">
 
                         <TextView
@@ -66,7 +66,7 @@
                             android:layout_height="wrap_content"
                             android:text="Name : "
                             android:textColor="@color/black"
-                            android:textSize="16dp"
+                            android:textSize="16sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -76,7 +76,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:text="@{dashboard_data.hospitalDetails.name}"
-                            android:textSize="14dp"
+                            android:textSize="16sp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/tvname"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -88,7 +88,7 @@
                             android:layout_marginTop="8dp"
                             android:text="Address : "
                             android:textColor="@color/black"
-                            android:textSize="16dp"
+                            android:textSize="16sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/tvnamevalue" />
 
@@ -99,7 +99,7 @@
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
                             android:text="@{dashboard_data.hospitalDetails.address}"
-                            android:textSize="14dp"
+                            android:textSize="16sp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/tvaddress"
                             app:layout_constraintTop_toBottomOf="@+id/tvnamevalue" />
@@ -111,7 +111,7 @@
                             android:layout_marginTop="8dp"
                             android:text="Type of Hospital : "
                             android:textColor="@color/black"
-                            android:textSize="16dp"
+                            android:textSize="16sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/tvaddressvalue" />
 
@@ -122,7 +122,7 @@
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
                             android:text="@{dashboard_data.hospitalDetails.hospital}"
-                            android:textSize="14dp"
+                            android:textSize="16sp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/tvhosp"
                             app:layout_constraintTop_toBottomOf="@+id/tvaddressvalue" />
@@ -134,9 +134,9 @@
                             android:layout_marginTop="8dp"
                             android:text="Specialities : "
                             android:textColor="@color/black"
-                            android:textSize="16dp"
+                            android:textSize="16sp"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/tvhosp" />
+                            app:layout_constraintTop_toBottomOf="@+id/tvhospvalue" />
 
                         <TextView
                             android:id="@+id/tvspvalue"
@@ -144,10 +144,10 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
-                            android:textSize="14dp"
+                            android:textSize="16sp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/tvspeciality"
-                            app:layout_constraintTop_toBottomOf="@+id/tvhosp" />
+                            app:layout_constraintTop_toBottomOf="@+id/tvhospvalue" />
 
                         <TextView
                             android:id="@+id/tvfacility"
@@ -156,7 +156,7 @@
                             android:layout_marginTop="8dp"
                             android:text="Facilities : "
                             android:textColor="@color/black"
-                            android:textSize="16dp"
+                            android:textSize="16sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/tvspvalue" />
 
@@ -166,7 +166,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
-                            android:textSize="14dp"
+                            android:textSize="16sp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/tvfacility"
                             app:layout_constraintTop_toBottomOf="@+id/tvspvalue" />
@@ -178,7 +178,7 @@
                             android:layout_marginTop="8dp"
                             android:text="Number Of Rooms : "
                             android:textColor="@color/black"
-                            android:textSize="16dp"
+                            android:textSize="16sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/tvfacilityvalue" />
 
@@ -189,7 +189,7 @@
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
                             android:text="@{dashboard_data.hospitalDetails.rooms}"
-                            android:textSize="14dp"
+                            android:textSize="16sp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/tvrooms"
                             app:layout_constraintTop_toBottomOf="@+id/tvfacilityvalue" />
@@ -201,7 +201,7 @@
                             android:layout_marginTop="8dp"
                             android:text="Number Of Beds : "
                             android:textColor="@color/black"
-                            android:textSize="16dp"
+                            android:textSize="16sp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/tvrooms" />
 
@@ -212,7 +212,7 @@
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
                             android:text="@{dashboard_data.hospitalDetails.beds}"
-                            android:textSize="14dp"
+                            android:textSize="16sp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/tvbeds"
                             app:layout_constraintTop_toBottomOf="@+id/tvrooms" />
@@ -241,12 +241,13 @@
                         <TextView
                             android:id="@+id/tvboard"
                             android:layout_width="0dp"
-                            android:layout_height="0dp"
+                            android:layout_height="wrap_content"
                             android:text="Board Image: "
-                            app:layout_constraintBottom_toTopOf="@+id/tvphysician"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="@id/imgboard"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="@id/guideline2"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="@+id/imgboard" />
 
                         <ImageView
                             android:id="@+id/imgboard"
@@ -260,14 +261,13 @@
                         <TextView
                             android:id="@+id/tvphysician"
                             android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_marginTop="24dp"
+                            android:layout_height="wrap_content"
                             android:text="Physician Image: "
-                            android:gravity="left|center"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
+                            android:textSize="16sp"
+                            app:layout_constraintTop_toTopOf="@+id/imgphysician"
+                            app:layout_constraintBottom_toBottomOf="@id/imgphysician"
                             app:layout_constraintEnd_toEndOf="@id/guideline2"
-                            app:layout_constraintTop_toBottomOf="@+id/tvboard" />
+                            app:layout_constraintStart_toStartOf="parent" />
 
                         <ImageView
                             android:id="@+id/imgphysician"

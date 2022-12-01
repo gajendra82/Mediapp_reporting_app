@@ -10,48 +10,6 @@ import com.globalspace.miljonsales.ui.add_details_dashboard.*
 
 @Dao
 interface DaoDB {
-
-    //region CITY MASTER
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertList(geolist: List<FetchGeography>)
-
-    @Query("SELECT * From CITY_MASTER WHERE UPPER(STATE_NAME)= UPPER(:state) GROUP BY STATE_CODE")
-    fun getState(state : String): LiveData<FetchGeography>
-
-    @Query("SELECT * From CITY_MASTER WHERE UPPER(CITY_NAME)= UPPER(:city)")
-    fun getCity(city : String): LiveData<FetchGeography>
-
-    @Query("SELECT * From CITY_MASTER GROUP BY STATE_CODE")
-    fun getAllState(): LiveData<List<FetchGeography>>
-
-    @Query("SELECT * From CITY_MASTER Where STATE_CODE = :statecode")
-    fun getAllStateCity(statecode: Int): LiveData<List<FetchGeography>>
-    //endregion
-
-    //region HOSPITAL_TYPES
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertHospitalList(geolist: List<FetchHospital>)
-
-    @Query("SELECT * From HOSPITAL_TYPES")
-    fun getAllHospital(): LiveData<List<FetchHospital>>
-    //endregion
-
-    //region HOSPITAL_FACILITY
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertHospitalFacility(geolist: List<FetchHospitalFacility>)
-
-    @Query("SELECT * From FACILITY")
-    fun getAllFacility(): LiveData<List<FetchFacility>>
-    //endregion
-
-    // region SPECIALITY_TYPES
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertHospSpeciality(geolist: List<FetchSpecialityTypes>)
-
-    @Query("SELECT * From SPECIALITY_TYPES")
-    fun getAllSpeciality(): LiveData<List<FetchSpeciality>>
-    //endregion
-
     //region CONSUMPTION_TYPES
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertConsumptionList(geolist: List<FetchConsumptionTypes>)
@@ -62,10 +20,10 @@ interface DaoDB {
     @Query("SELECT * From CONSUMPTION_TYPES WHERE MOLECULE IN (:molecule) AND COMPANY_NAME = 'GUFIC' GROUP BY STRENGTH")
     fun getAllStrength(molecule : List<String>): LiveData<List<FetchMolecule>>
 
-    @Query("SELECT * From CONSUMPTION_TYPES WHERE STRENGTH= :strength AND COMPANY_NAME = 'GUFIC'")
+    @Query("SELECT * From CONSUMPTION_TYPES WHERE STRENGTH= :strength AND COMPANY_NAME = 'GUFIC' ORDER BY BRAND")
     fun getAllBrand(strength : String): LiveData<List<FetchMolecule>>
 
-    @Query("SELECT * From CONSUMPTION_TYPES WHERE STRENGTH= :strength AND COMPANY_NAME NOT IN ('GUFIC')")
+    @Query("SELECT * From CONSUMPTION_TYPES WHERE STRENGTH= :strength AND COMPANY_NAME NOT IN ('GUFIC') ORDER BY BRAND")
     fun getAllCompetitorBrand(strength : String): LiveData<List<FetchMolecule>>
     //endregion
 
@@ -116,18 +74,6 @@ interface DaoDB {
     //endregion
 
     //region delete all table
-    @Query("DELETE FROM CITY_MASTER")
-    fun deleteCITY_MASTER(): Int
-
-    @Query("DELETE FROM HOSPITAL_TYPES")
-    fun deleteHOSPITAL_TYPES(): Int
-
-    @Query("DELETE FROM FACILITY")
-    fun deleteFACILITY(): Int
-
-    @Query("DELETE FROM SPECIALITY_TYPES")
-    fun deleteSPECIALITY_TYPES(): Int
-
     @Query("DELETE FROM CONSUMPTION_TYPES")
     fun deleteCONSUMPTION_TYPES(): Int
 

@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:maxLength="15"
-                android:inputType="text|textCapCharacters"
+                android:inputType="text|textCapCharacters|textEmailAddress"
                 android:text="@={kycdetails.strgstno}"
                 android:lines="1" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -72,7 +72,7 @@
                 android:id="@+id/et_pan_no"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:inputType="text|textCapCharacters"
+                android:inputType="text|textCapCharacters|textEmailAddress"
                 android:maxLength="10"
                 android:text="@={kycdetails.strpanno}"
                 android:lines="1" />

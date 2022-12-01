@@ -46,8 +46,10 @@
                     android:id="@+id/edittext_name"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:inputType="text"
+                    android:inputType="textEmailAddress"
+                    android:imeOptions="actionNext"
                     android:lines="1"
+                    android:digits="qwertyuiopasdfghjklzxcvbnm 1234567890 QWERTYUIOPASDFGHJKLZXCVBNM"
                     android:text="@={add_details.strname}" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -75,7 +77,7 @@
                     android:layout_height="match_parent"
                     android:drawableEnd="@drawable/ic_my_location"
                     android:drawablePadding="12dp"
-                    android:inputType="textMultiLine"
+                    android:inputType="textMultiLine|textEmailAddress"
                     android:maxLength="5000"
                     android:maxLines="4"
                     android:scrollbars="vertical"
@@ -161,7 +163,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textinp_hospital"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:hint="@string/hint_hospital"
@@ -171,7 +173,7 @@
                 app:errorEnabled="true"
                 app:errorIconDrawable="@drawable/ic_baseline_error_24"
                 app:hintTextColor="@color/colorPrimary"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/img_edit"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textinp_pincode">
 
@@ -182,6 +184,18 @@
                     android:focusable="false"
                     android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageView
+                android:id="@+id/img_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:src="@drawable/ic_edit"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/textinp_hospital"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textinp_pincode" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textinp_rooms"
@@ -203,6 +217,7 @@
                     android:layout_height="match_parent"
                     android:inputType="number"
                     android:lines="1"
+                    android:maxLength="7"
                     android:text="@={add_details.strrooms}" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -270,6 +285,7 @@
                     android:layout_height="match_parent"
                     android:inputType="number"
                     android:lines="1"
+                    android:maxLength="7"
                     android:text="@={add_details.strbeds}" />
             </com.google.android.material.textfield.TextInputLayout>
 
